@@ -39,7 +39,7 @@ public class ViewFragment extends Fragment {
     private LinearLayout errorLayout;
     private TextView errorTxtView;
 
-    public ViewFragment() {
+    private ViewFragment() {
         // Required empty public constructor
     }
 
@@ -88,6 +88,11 @@ public class ViewFragment extends Fragment {
     private void init() {
         aiaWebView = rootView.findViewById(R.id.aia_webview);
 
+        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+    }
+
+    public void refreshView() {
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
         aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
     }

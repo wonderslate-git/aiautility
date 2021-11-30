@@ -25,11 +25,6 @@ public class WSSharedPrefs {
     private static WSSharedPrefs wsSharedPrefs;
     private SharedPreferences sharedPrefs = null;
 
-    private String accessToken;
-    private String username;
-    private String useremail;
-    private String usermobile;
-    private String userId;
     private String serviceSiteId;
 
     private WSSharedPrefs(Context context) {
@@ -43,25 +38,19 @@ public class WSSharedPrefs {
             wsSharedPrefs.sharedPrefs =
                     context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
 
-            wsSharedPrefs.accessToken =
-                    wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_ACCESS_TOKEN, "nil");
             wsSharedPrefs.serviceSiteId =
                     wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_SERVICE_SITE_ID, "1");
-
-            wsSharedPrefs.userId = wsSharedPrefs
-                    .sharedPrefs.getString(SHARED_PREFS_USERID, "");
 
         }
         return wsSharedPrefs;
     }
 
     public synchronized String getAccessToken() {
-        return this.accessToken;
+        return wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_ACCESS_TOKEN, "");
     }
 
     public void setAccessToken(String token) {
         this.sharedPrefs.edit().putString(SHARED_PREFS_ACCESS_TOKEN, token).commit();
-        this.accessToken = token;
     }
 
     public void deviceRegistered(boolean value) {
@@ -123,16 +112,18 @@ public class WSSharedPrefs {
     public void clearAccessToken() {
         this.sharedPrefs.edit().putString(SHARED_PREFS_ACCESS_TOKEN, "nil").commit();
         this.sharedPrefs.edit().putString(SHARED_PREFS_DATA, "nil").commit();
-        this.accessToken = "nil";
     }
 
     public String getServiceSiteId() {
         return serviceSiteId;
     }
 
-    public void setUsername(String token) {
-        this.sharedPrefs.edit().putString(SHARED_PREFS_USERNAME, token).commit();
-        this.username = token;
+    public void setUsername(String name) {
+        this.sharedPrefs.edit().putString(SHARED_PREFS_USERNAME, name).commit();
+    }
+
+    public String getUserName() {
+        return wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_USERNAME, "");
     }
 
     public String getUserId() {
@@ -141,21 +132,14 @@ public class WSSharedPrefs {
 
     public void setUserId(String userId) {
         this.sharedPrefs.edit().putString(SHARED_PREFS_USERID, userId).commit();
-        this.userId = userId;
     }
 
-    public void setUsermobile(String token) {
-        if (token != null && !token.isEmpty() && !token.equalsIgnoreCase("null")) {
-            //do nothing
-        } else
-            token = "";
-        this.sharedPrefs.edit().putString(SHARED_PREFS_USERMOBILE, token).commit();
-        this.usermobile = token;
+    public void setUsermobile(String mobile) {
+        this.sharedPrefs.edit().putString(SHARED_PREFS_USERMOBILE, mobile).commit();
     }
 
     public String getUsermobile() {
         return wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_USERMOBILE, "");
-        //return this.usermobile;
     }
 
     public void setChapterFirstTimeStatus(String id, boolean value) {
@@ -167,12 +151,7 @@ public class WSSharedPrefs {
     }
 
     public void setUserEmail(String token) {
-        if (token != null && !token.isEmpty() && !token.equalsIgnoreCase("null")) {
-            //do nothing
-        } else
-            token = "";
         this.sharedPrefs.edit().putString(SHARED_PREFS_USEREMAIL, token).commit();
-        this.useremail = token;
     }
 
     public String getUseremail() {

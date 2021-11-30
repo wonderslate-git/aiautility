@@ -56,7 +56,6 @@ public class AIAWebLoader {
     }
 
     public void loadAIA(String siteId, String mobile, String secretKey, String username){
-        Toast.makeText(activity, "Loading your E-Books Library. Have patience please...", Toast.LENGTH_LONG).show();
         configureWebView(webView);
 
         String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=b534cZ9845&loginId=%s&name=%s", "1", mobile, username);
