@@ -1,13 +1,20 @@
 package com.android.wonderslate.appinapp.util;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 
 import android.app.Activity;
+import android.app.DownloadManager;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.webkit.ConsoleMessage;
+import android.webkit.CookieManager;
+import android.webkit.DownloadListener;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -53,6 +60,28 @@ public class AIAWebLoader {
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+
+        webView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+
+                request.setMimeType(mimeType);
+                //------------------------COOKIE!!------------------------
+                String cookies = CookieManager.getInstance().getCookie(url);
+                request.addRequestHeader("cookie", cookies);
+                //------------------------COOKIE!!------------------------
+                request.addRequestHeader("User-Agent", userAgent);
+                request.setDescription("Downloading file...");
+                request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
+                request.allowScanningByMediaScanner();
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
+                DownloadManager dm = (DownloadManager) activity.getSystemService(DOWNLOAD_SERVICE);
+                dm.enqueue(request);
+                Toast.makeText(activity, "Downloading File", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     public void loadAIA(String siteId, String mobile, String secretKey, String username){
@@ -61,12 +90,6 @@ public class AIAWebLoader {
         String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=b534cZ9845&loginId=%s&name=%s", "1", mobile, username);
         webView.loadUrl(url);
     }
-
-    /*public void refreshWebView() {
-        if (webView != null) {
-            loadAIA("1", "9790798287", "some_secret", "Anirudha");
-        }
-    }*/
 
     class eBooksWebViewClient extends WebViewClient {
         @Override
@@ -127,4 +150,5 @@ public class AIAWebLoader {
             return true;
         }
     }
+
 }
