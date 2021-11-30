@@ -1,4 +1,4 @@
-package wonderslate.android.com.appinapp.util;
+package com.android.wonderslate.appinapp.util;
 
 import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 
@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import wonderslate.android.com.appinapp.BuildConfig;
+import com.android.wonderslate.appinapp.BuildConfig;
 
 public class AIAWebLoader {
     WebView webView;

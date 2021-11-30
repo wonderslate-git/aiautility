@@ -1,39 +1,21 @@
 package com.example.android.architecture.blueprints.todoapp.appinappsample;
 
-import static android.webkit.WebView.setWebContentsDebuggingEnabled;
-
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.webkit.ConsoleMessage;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.PermissionRequest;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.example.android.architecture.blueprints.todoapp.BuildConfig;
 import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.util.AppInAppUtil;
 import com.google.android.material.textfield.TextInputEditText;
 
-import wonderslate.android.com.appinapp.AppInAppUtility;
+import com.android.wonderslate.appinapp.AppInAppUtility;
 
 public class AppInAppActivity extends AppCompatActivity {
     public WebView appInAppView;

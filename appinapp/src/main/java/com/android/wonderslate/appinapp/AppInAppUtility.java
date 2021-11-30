@@ -1,9 +1,9 @@
-package wonderslate.android.com.appinapp;
+package com.android.wonderslate.appinapp;
 
 import android.content.Context;
 
-import wonderslate.android.com.appinapp.data.local.WSSharedPrefs;
-import wonderslate.android.com.appinapp.views.ViewFragment;
+import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
+import com.android.wonderslate.appinapp.views.ViewFragment;
 
 public final class AppInAppUtility {
 

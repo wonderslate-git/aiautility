@@ -1,9 +1,9 @@
-package wonderslate.android.com.appinapp;
+package com.android.wonderslate.appinapp;
 
 import android.content.Context;
 
-import wonderslate.android.com.appinapp.data.local.WSSharedPrefs;
-import wonderslate.android.com.appinapp.util.ApplicationMode;
+import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
+import com.android.wonderslate.appinapp.util.ApplicationMode;
 
 public final class Wonderslate {
 

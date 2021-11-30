@@ -1,0 +1,1 @@
+[![](https://jitpack.io/v/anirudha-banerjee/WS-App-In-App.svg)](https://jitpack.io/#anirudha-banerjee/WS-App-In-App)

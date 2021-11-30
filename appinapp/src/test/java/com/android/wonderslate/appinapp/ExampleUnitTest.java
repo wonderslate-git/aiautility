@@ -1,4 +1,4 @@
-package wonderslate.android.com.appinapp;
+package com.android.wonderslate.appinapp;
 
 import org.junit.Test;
 

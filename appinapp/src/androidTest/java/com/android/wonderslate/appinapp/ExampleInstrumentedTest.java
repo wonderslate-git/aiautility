@@ -1,4 +1,4 @@
-package wonderslate.android.com.appinapp;
+package com.android.wonderslate.appinapp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("wonderslate.android.com.appinapp.test", appContext.getPackageName());
+        assertEquals("com.android.wonderslate.appinapp.test", appContext.getPackageName());
     }
 }

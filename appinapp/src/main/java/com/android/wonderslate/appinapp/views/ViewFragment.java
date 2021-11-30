@@ -1,6 +1,5 @@
-package wonderslate.android.com.appinapp.views;
+package com.android.wonderslate.appinapp.views;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,8 +11,8 @@ import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import wonderslate.android.com.appinapp.R;
-import wonderslate.android.com.appinapp.util.AIAWebLoader;
+import com.android.wonderslate.appinapp.R;
+import com.android.wonderslate.appinapp.util.AIAWebLoader;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,4 +1,4 @@
-package wonderslate.android.com.appinapp.data.local;
+package com.android.wonderslate.appinapp.data.local;
 
 import android.content.Context;
 import android.content.SharedPreferences;
