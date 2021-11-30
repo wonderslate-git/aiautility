@@ -1,0 +1,10 @@
+<resources>
+    <string name="service_live">https://www.wonderslate.com/</string>
+    <string name="service_qa">https://qa.wonderslate.com/</string>
+    <string name="service_staging">https://staging.wonderslate.com/</string>
+    <string name="service_publish">https://publish.wonderslate.com/</string>
+
+    <string name="salt" translatable="false">1111111111111111</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

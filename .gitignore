@@ -1,0 +1,72 @@
+# Built application files
+*.apk
+*.ap_
+
+# Generated files
+bin/
+gen/
+out/
+
+# IntelliJ
+*.iml
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/gradle.xml
+/.idea/assetWizardSettings.xml
+/.idea/dictionaries
+/.idea/libraries
+/.idea/caches
+/.idea/caches/build_file_checksums.ser
+/.idea/misc.xml
+/.idea/markdown-navigator.xml
+/.idea/markdown-navigator/profiles_settings.xml
+/.idea/kotlinc.xml
+/.idea/modules.xml
+/.idea/codeStyles/Project.xml
+.idea/markdown-navigator-enh.xml
+.idea/
+../.idea/*
+.idea/*
+.idea/modules.xml
+
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
+/local.properties
+.DS_Store
+/build
+/captures
+/app/release/output.json
+/app/aksah/
+/app/utkarsh/
+/app/kshetrapal/
+/app/margadarshi/
+/app/electricianEducation/
+/app/wonderslate/
+
+!/.idea/modules/
+!/.idea/modules.xml
+
+#Un-Versioned FIles
+app/debug/
+app/release/
+app/src/aksah/res/drawable-ldpi/
+app/src/arivu/java/
+app/src/arivu/res/anim/
+app/src/arivu/res/drawable/
+app/src/arivu/res/layout/
+app/src/arivu/res/mipmap/
+app/src/arivu/res/values/
+app/src/arivu/res/xml/
+app/src/fundamentalias/res/drawable-ldpi/
+app/src/kshetrapal/res/drawable-ldpi/
+app/src/margadarshi/res/drawable-ldpi/
+release/
+utkarsh/
+
+#Infre files
+infer-out/
+/infer-out/
+
