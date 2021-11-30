@@ -5,6 +5,8 @@ import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -59,6 +61,12 @@ public class AIAWebLoader {
 
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCachePath(activity.getBaseContext().getCacheDir().getPath());
+
+        webView.getSettings().setCacheMode(isNetworkConnected()?WebSettings.LOAD_NO_CACHE: WebSettings.LOAD_CACHE_ONLY);
+
+
         setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
 
         webView.setDownloadListener(new DownloadListener() {
@@ -96,6 +104,12 @@ public class AIAWebLoader {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             return false;
         }
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
     }
 
     class eBooksChromeClient extends WebChromeClient {
