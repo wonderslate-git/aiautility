@@ -38,11 +38,16 @@ public class WSSharedPrefs {
             wsSharedPrefs.sharedPrefs =
                     context.getSharedPreferences(SHARED_PREFS_NAME, Context.MODE_PRIVATE);
 
-            wsSharedPrefs.serviceSiteId =
-                    wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_SERVICE_SITE_ID, "1");
-
         }
         return wsSharedPrefs;
+    }
+
+    public synchronized String getSiteId() {
+        return this.sharedPrefs.getString(SHARED_PREFS_SERVICE_SITE_ID, "");
+    }
+
+    public void setSiteId(String id) {
+        this.sharedPrefs.edit().putString(SHARED_PREFS_SERVICE_SITE_ID, id).commit();
     }
 
     public synchronized String getAccessToken() {

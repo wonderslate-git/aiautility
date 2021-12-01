@@ -35,13 +35,13 @@ public final class AppInAppUtility {
      * @param userMobile the registered mobile number of the user
      * @return App In App instance
      */
-    public static AppInAppUtility getInstance(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile) {
+    public static AppInAppUtility getInstance(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile, @NonNull String siteId) {
         if (mInstance == null) {
             mInstance = new AppInAppUtility();
         }
         mInstance.setContext(context);
-        mInstance.setSiteId("1");
-        mInstance.init(mInstance.getmContext(), secret, userName, userMobile, "1");
+        mInstance.setSiteId(siteId);
+        mInstance.init(mInstance.getmContext(), secret, userName, userMobile, siteId);
         return mInstance;
     }
 

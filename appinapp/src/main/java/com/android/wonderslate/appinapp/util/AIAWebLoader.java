@@ -62,7 +62,7 @@ public class AIAWebLoader {
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         webView.getSettings().setAppCacheEnabled(true);
-        webView.getSettings().setAppCachePath(activity.getBaseContext().getCacheDir().getPath());
+        webView.getSettings().setAppCachePath(activity.getCacheDir().getPath());
 
         webView.getSettings().setCacheMode(isNetworkConnected()?WebSettings.LOAD_NO_CACHE: WebSettings.LOAD_CACHE_ONLY);
 
@@ -95,13 +95,17 @@ public class AIAWebLoader {
     public void loadAIA(String siteId, String mobile, String secretKey, String username){
         configureWebView(webView);
 
-        String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=b534cZ9845&loginId=%s&name=%s", "1", mobile, username);
+        String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s", siteId, secretKey, mobile, username);
         webView.loadUrl(url);
     }
 
     class eBooksWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            if (url.contains("razorpay")) {
+                view.loadUrl(url);
+                return true;
+            }
             return false;
         }
     }
