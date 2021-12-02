@@ -41,6 +41,7 @@ public class AIAWebLoader {
 
     private void configureWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
         webView.getSettings().setBuiltInZoomControls(true);
         webView.setVerticalScrollBarEnabled(true);
         webView.setHorizontalScrollBarEnabled(true);
@@ -61,10 +62,14 @@ public class AIAWebLoader {
 
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
+        webView.getSettings().setSupportMultipleWindows(true);
+
         webView.getSettings().setAppCacheEnabled(true);
         webView.getSettings().setAppCachePath(activity.getCacheDir().getPath());
 
         webView.getSettings().setCacheMode(isNetworkConnected()?WebSettings.LOAD_NO_CACHE: WebSettings.LOAD_CACHE_ONLY);
+
+        CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
 
         setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
@@ -102,10 +107,10 @@ public class AIAWebLoader {
     class eBooksWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if (url.contains("razorpay")) {
+            /*if (url.contains("razorpay")) {
                 view.loadUrl(url);
                 return true;
-            }
+            }*/
             return false;
         }
     }

@@ -17,7 +17,6 @@ import com.android.wonderslate.appinapp.views.ViewInterface;
 public final class AppInAppUtility {
 
     private Context mContext;
-    private String mSiteId;
     private WSSharedPrefs wsSharedPrefs;
     private String mUserName, mUserMobile, mClientSecret;
 
@@ -40,7 +39,6 @@ public final class AppInAppUtility {
             mInstance = new AppInAppUtility();
         }
         mInstance.setContext(context);
-        mInstance.setSiteId(siteId);
         mInstance.init(mInstance.getmContext(), secret, userName, userMobile, siteId);
         return mInstance;
     }
@@ -51,7 +49,7 @@ public final class AppInAppUtility {
      */
     @NonNull
     public ViewFragment getAIAFragment() {
-        viewFragment = ViewFragment.newInstance(mInstance.getmSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(), wsSharedPrefs.getUsermobile());
+        viewFragment = ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(), wsSharedPrefs.getUsermobile());
         return viewFragment;
     }
 
@@ -60,10 +58,7 @@ public final class AppInAppUtility {
         wsSharedPrefs.setUsername(userName);
         wsSharedPrefs.setUsermobile(userMobile);
         wsSharedPrefs.setAccessToken(secret);
-    }
-
-    private void setSiteId(String id) {
-        mSiteId = id;
+        wsSharedPrefs.setSiteId(siteId);
     }
 
     private void setContext(Context context) {
@@ -72,9 +67,5 @@ public final class AppInAppUtility {
 
     private Context getmContext() {
         return mContext;
-    }
-
-    private String getmSiteId() {
-        return mSiteId;
     }
 }
