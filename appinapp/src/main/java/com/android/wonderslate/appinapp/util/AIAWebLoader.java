@@ -7,9 +7,12 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
+import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
@@ -25,10 +28,13 @@ import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.BuildConfig;
 
+import java.io.File;
+
 public class AIAWebLoader {
     WebView webView;
     Activity activity;
     String userName, userMobile;
+    int i = 0;
 
     public AIAWebLoader(WebView webView, Activity activity) {
         this.webView = webView;
@@ -65,14 +71,30 @@ public class AIAWebLoader {
         webView.getSettings().setSupportMultipleWindows(true);
 
         webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setDatabaseEnabled(true);
         webView.getSettings().setAppCachePath(activity.getCacheDir().getPath());
 
-        webView.getSettings().setCacheMode(isNetworkConnected()?WebSettings.LOAD_NO_CACHE: WebSettings.LOAD_CACHE_ONLY);
+        File dataCacheDir = activity.getCacheDir();
+        if (!dataCacheDir.exists()) {
+            dataCacheDir.mkdir();
+        }
+        webView.getSettings().setAppCachePath(dataCacheDir.getPath());
+
+        if (isNetworkConnected(activity.getBaseContext())) {
+            webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            // No Internet Available; Get Images From Cache
+            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
 
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
+        webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
+        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-        setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        //ToDo: In the release build enable security against chrome debug
+        //setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
+        setWebContentsDebuggingEnabled(true);
 
         webView.setDownloadListener(new DownloadListener() {
             @Override
@@ -102,6 +124,7 @@ public class AIAWebLoader {
 
         String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s", siteId, secretKey, mobile, username);
         webView.loadUrl(url);
+        i = 0;
     }
 
     class eBooksWebViewClient extends WebViewClient {
@@ -113,12 +136,36 @@ public class AIAWebLoader {
             }*/
             return false;
         }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            if (isNetworkConnected(activity.getBaseContext())) {
+                try {
+                    File file = new File(activity.getFilesDir(), "aia" + ++i);
+                    String pathToArchive = "file://" + file.getAbsolutePath() + ".mht";
+                    Log.d("AppInApp", "Web Archive: " + pathToArchive);
+                    Thread.sleep(2000);
+                    view.saveWebArchive(pathToArchive);
+
+                } catch (InterruptedException e) {
+
+                    Log.e("AppInApp", "Exception while saving web archive", e);
+
+                }
+
+            }
+
+        }
     }
 
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+    public  boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        return cm.getActiveNetworkInfo() != null;
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     class eBooksChromeClient extends WebChromeClient {
@@ -128,23 +175,18 @@ public class AIAWebLoader {
         // Need to accept permissions to use the camera
         @Override
         public void onPermissionRequest(final PermissionRequest request) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                request.grant(request.getResources());
-            }
-            else {
-                Toast.makeText(activity, "This is not supported on this Android Version.", Toast.LENGTH_SHORT).show();
-            }
+            request.grant(request.getResources());
         }
 
         public boolean onConsoleMessage(ConsoleMessage cm) {
-            /*if (cm != null && cm.sourceId().length() > 0) {
-                Log.e(TAG, cm.message() + " -- From line "
+            if (cm != null && cm.sourceId().length() > 0) {
+                Log.e("AppInApp", cm.message() + " -- From line "
                         + cm.lineNumber() + " of "
                         + cm.sourceId().substring(10));
             } else if (cm != null) {
-                Log.e(TAG, cm.message() + " -- From line "
+                Log.e("AppInApp", cm.message() + " -- From line "
                         + cm.lineNumber());
-            }*/
+            }
             return true;
         }
 
@@ -157,20 +199,20 @@ public class AIAWebLoader {
 
         @Override
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            result.cancel();
-            return true;
+            //result.cancel();
+            return false;
         }
 
         @Override
         public boolean onJsConfirm(WebView view, String url, String message, JsResult result) {
-            result.cancel();
-            return true;
+            //result.cancel();
+            return false;
         }
 
         @Override
         public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, JsPromptResult result) {
-            result.cancel();
-            return true;
+            //result.cancel();
+            return false;
         }
     }
 

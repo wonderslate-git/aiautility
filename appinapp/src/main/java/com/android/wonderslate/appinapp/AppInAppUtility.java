@@ -21,7 +21,6 @@ public final class AppInAppUtility {
     private String mUserName, mUserMobile, mClientSecret;
 
     private static AppInAppUtility mInstance;
-    private ViewFragment viewFragment;
 
     private AppInAppUtility() {}
 
@@ -49,8 +48,7 @@ public final class AppInAppUtility {
      */
     @NonNull
     public ViewFragment getAIAFragment() {
-        viewFragment = ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(), wsSharedPrefs.getUsermobile());
-        return viewFragment;
+        return ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(), wsSharedPrefs.getUsermobile());
     }
 
     private void init(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile, @Nullable String siteId) {
