@@ -61,6 +61,7 @@ public class AIAWebLoader {
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
 
         webView.setWebChromeClient(new eBooksChromeClient());
 
