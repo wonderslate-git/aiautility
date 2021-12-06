@@ -119,14 +119,14 @@ public class AIAWebLoader {
 
     class eBooksWebViewClient extends WebViewClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
             /*if (url.contains("razorpay")) {
                 view.loadUrl(url);
                 return true;
             }*/
-            if (request.getUrl().toString().contains("razorpay")) {
-                Log.d("AppInApp", "Payment Url:" + request.getUrl().toString());
-                Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+            if (url.contains("razorpay")) {
+                Log.d("AppInApp", "Payment Url:" + url);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                 activity.startActivity(intent);
                 return true;
             }
