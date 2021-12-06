@@ -21,6 +21,8 @@ import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -130,7 +132,7 @@ public class AIAWebLoader {
 
     class eBooksWebViewClient extends WebViewClient {
         @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             /*if (url.contains("razorpay")) {
                 view.loadUrl(url);
                 return true;
@@ -156,6 +158,16 @@ public class AIAWebLoader {
 
             }
 
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request)
+        {
+            if (request.getUrl().toString().contains("razorpay")) {
+                Log.d("AppInApp", "Payment Url:" + request.getUrl().toString());
+            }
+
+            return null;
         }
     }
 
