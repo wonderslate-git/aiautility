@@ -137,6 +137,7 @@ public class AIAWebLoader {
                 view.loadUrl(url);
                 return true;
             }*/
+            view.loadUrl(request.getUrl().toString());
             return false;
         }
 
