@@ -125,6 +125,7 @@ public class AIAWebLoader {
                 return true;
             }*/
             if (request.getUrl().toString().contains("razorpay")) {
+                Log.d("AppInApp", "Payment Url:" + request.getUrl().toString());
                 Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
                 activity.startActivity(intent);
                 return true;
@@ -152,7 +153,7 @@ public class AIAWebLoader {
 
         }
 
-        @Override
+        /*@Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request)
         {
             if (request.getUrl().toString().contains("razorpay")) {
@@ -160,7 +161,7 @@ public class AIAWebLoader {
             }
 
             return null;
-        }
+        }*/
     }
 
     public  boolean isNetworkConnected(Context context) {

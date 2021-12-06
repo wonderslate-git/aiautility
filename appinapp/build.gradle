@@ -47,7 +47,7 @@ afterEvaluate {
 
                 groupId = 'com.github.anirudha-banerjee'
                 artifactId = 'WS-App-In-App'
-                version = '0.0.3.4'
+                version = '0.0.3.5'
             }
         }
     }
