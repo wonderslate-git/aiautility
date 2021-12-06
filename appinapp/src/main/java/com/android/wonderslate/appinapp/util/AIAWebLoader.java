@@ -73,22 +73,8 @@ public class AIAWebLoader {
 
         webView.getSettings().setSupportMultipleWindows(true);
 
-        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setDatabaseEnabled(true);
-        webView.getSettings().setAppCachePath(activity.getCacheDir().getPath());
-
-        File dataCacheDir = activity.getCacheDir();
-        if (!dataCacheDir.exists()) {
-            dataCacheDir.mkdir();
-        }
-        webView.getSettings().setAppCachePath(dataCacheDir.getPath());
-
-        if (isNetworkConnected(activity.getBaseContext())) {
-            webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
-        } else {
-            // No Internet Available; Get Images From Cache
-            webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        }
 
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
