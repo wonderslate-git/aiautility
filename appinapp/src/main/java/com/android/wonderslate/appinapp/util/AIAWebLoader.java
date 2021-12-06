@@ -6,6 +6,7 @@ import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -123,7 +124,11 @@ public class AIAWebLoader {
                 view.loadUrl(url);
                 return true;
             }*/
-            view.loadUrl(request.getUrl().toString());
+            if (request.getUrl().toString().contains("razorpay")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, request.getUrl());
+                activity.startActivity(intent);
+                return true;
+            }
             return false;
         }
 
