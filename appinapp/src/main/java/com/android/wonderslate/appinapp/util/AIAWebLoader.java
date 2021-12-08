@@ -30,6 +30,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.BuildConfig;
+import com.android.wonderslate.appinapp.interfaces.AIAJSInterface;
 
 import java.io.File;
 
@@ -76,6 +77,7 @@ public class AIAWebLoader {
 
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setDatabaseEnabled(true);
+        webView.addJavascriptInterface(new AIAJSInterface(webView, activity), "JSInterface");
 
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
