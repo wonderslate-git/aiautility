@@ -25,10 +25,10 @@ public class PaymentUtility implements PaymentResultListener {
     public void startPayment(String id, String price, String title) {
         final Activity activity = this.activity;
         final Checkout co = new Checkout();
-        //co.setImage(R.mipmap.ic_launcher);
+        //co.setImage(R.mipmap.ic_launcher); //Company logo
         try {
             JSONObject options = new JSONObject();
-            options.put("name", "Dear Sir");
+            options.put("name", "Dear Sir"); //Company Name
             options.put("description", title + " (Course " + id + ")");
             //You can omit the image option to fetch the image from dashboard
             options.put("currency", "INR");
@@ -59,7 +59,8 @@ public class PaymentUtility implements PaymentResultListener {
 
     @Override
     public void onPaymentSuccess(String s) {
-
+        Log.d("AppInApp", "Razorpay Payment Success");
+        Log.d("AppInApp", "Razorpay Payment Details: " + s);
     }
 
     @Override
