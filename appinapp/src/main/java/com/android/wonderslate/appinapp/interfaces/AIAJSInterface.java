@@ -2,6 +2,7 @@ package com.android.wonderslate.appinapp.interfaces;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -25,6 +26,8 @@ public class AIAJSInterface {
         this.context = context;
         wsSharedPrefs = WSSharedPrefs.getInstance(context);
         aiaActivity = new AIAActivity(this.context);
+        Intent AIAIntent = new Intent(context, AIAActivity.class);
+        context.startActivity(AIAIntent);
     }
 
     @JavascriptInterface

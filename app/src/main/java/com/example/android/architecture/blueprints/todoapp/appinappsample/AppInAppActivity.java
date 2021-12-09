@@ -69,7 +69,7 @@ public class AppInAppActivity extends AppCompatActivity {
                     userName = userNameText.getText().toString();
 
                     getSupportFragmentManager().beginTransaction().add(R.id.appinappframe, AppInAppUtility.getInstance(AppInAppActivity.this, "b534cZ9845",
-                            userName, userMobile, "28")
+                            userName, userMobile, "", "28")
                             .getAIAFragment()).commit();
                     dialog.dismiss();
                 }

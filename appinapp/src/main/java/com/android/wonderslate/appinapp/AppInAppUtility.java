@@ -33,12 +33,13 @@ public final class AppInAppUtility {
      * @param userMobile the registered mobile number of the user
      * @return App In App instance
      */
-    public static AppInAppUtility getInstance(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile, @NonNull String siteId) {
+    public static AppInAppUtility getInstance(@NonNull Context context, @NonNull String secret, @NonNull String userName,
+                                              @NonNull String userMobile, @NonNull String userEmail, @NonNull String siteId) {
         if (mInstance == null) {
             mInstance = new AppInAppUtility();
         }
         mInstance.setContext(context);
-        mInstance.init(mInstance.getmContext(), secret, userName, userMobile, siteId);
+        mInstance.init(mInstance.getmContext(), secret, userName, userMobile, userEmail, siteId);
         return mInstance;
     }
 
@@ -48,13 +49,16 @@ public final class AppInAppUtility {
      */
     @NonNull
     public ViewFragment getAIAFragment() {
-        return ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(), wsSharedPrefs.getUsermobile());
+        return ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(),
+                wsSharedPrefs.getUsermobile(), wsSharedPrefs.getUseremail());
     }
 
-    private void init(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile, @Nullable String siteId) {
+    private void init(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile,
+                      @NonNull String userEmail, @Nullable String siteId) {
         wsSharedPrefs = WSSharedPrefs.getInstance(context);
         wsSharedPrefs.setUsername(userName);
         wsSharedPrefs.setUsermobile(userMobile);
+        wsSharedPrefs.setUserEmail(userEmail);
         wsSharedPrefs.setAccessToken(secret);
         wsSharedPrefs.setSiteId(siteId);
     }

@@ -54,7 +54,7 @@ public class ViewFragment extends Fragment {
      * @return A new instance of fragment ViewFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ViewFragment newInstance(String siteId, String secret, String name, String mobile) {
+    public static ViewFragment newInstance(String siteId, String secret, String name, String mobile, String email) {
         ViewFragment fragment = new ViewFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, siteId);
