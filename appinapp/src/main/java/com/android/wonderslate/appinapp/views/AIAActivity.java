@@ -51,9 +51,9 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
             options.put("currency", "INR");
             options.put("amount", (Double.parseDouble(price) * 100) + "");
             JSONObject preFill = new JSONObject();
-            preFill.put("name", wsSharedPrefs.getUserName());
+            preFill.put("name", "Anirudha");
             preFill.put("email", "anirudha.wonderslate@gmail.com"); //hardcoded email Todo: get the user email from the client app
-            preFill.put("contact", wsSharedPrefs.getUsermobile());
+            preFill.put("contact", "8884369973");
             JSONObject ReadOnly = new JSONObject();
             ReadOnly.put("email", "true");
             ReadOnly.put("contact", "true");
@@ -64,7 +64,7 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
             options.put("readonly", ReadOnly);
             JSONObject notes = new JSONObject();
             notes.put("bookId", bookId);
-            notes.put("username", wsSharedPrefs.getUsermobile());
+            notes.put("username", "8884369973");
             options.put("notes", notes);
 
             co.open(activity, options);
