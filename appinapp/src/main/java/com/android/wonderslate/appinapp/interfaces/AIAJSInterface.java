@@ -24,7 +24,7 @@ public class AIAJSInterface {
         this.webView = webView;
         this.context = context;
         wsSharedPrefs = WSSharedPrefs.getInstance(context);
-        aiaActivity = new AIAActivity();
+        aiaActivity = new AIAActivity(this.context);
     }
 
     @JavascriptInterface

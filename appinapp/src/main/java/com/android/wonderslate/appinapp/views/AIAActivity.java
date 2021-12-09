@@ -19,11 +19,16 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
     WSSharedPrefs wsSharedPrefs;
     WebView webView;
     String bookId;
+    Activity clientContext;
+
+    public AIAActivity(Activity clientContext) {
+        this.clientContext = clientContext;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wsSharedPrefs = WSSharedPrefs.getInstance(this);
+        wsSharedPrefs = WSSharedPrefs.getInstance(clientContext);
     }
 
     public void startPayment(String bookId, String bookTitle, String price, WebView webView) {
