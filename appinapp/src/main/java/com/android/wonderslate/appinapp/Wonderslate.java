@@ -1,23 +1,15 @@
 package com.android.wonderslate.appinapp;
 
-import android.content.Context;
-
-import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
-import com.android.wonderslate.appinapp.util.ApplicationMode;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_LIVE;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_PUBLISH;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QA;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_STAGING;
 
 public final class Wonderslate {
 
     private static Wonderslate mInstance;
-    private Context mContext;
-    private String mSiteID = "";
-    private WSSharedPrefs sharedPrefs = null;
-    public static final int RESULT_STATUS_FAILED = -2;
-    public static final int RESULT_STATUS_SUCCESS = 0;
-    public static final String BROADCAST_ACTION_DOWNLOAD_FILE = "fileDownload";
-    private static ApplicationMode appMode = ApplicationMode.UNDEFINED;
 
     public static String SERVICE;
-    public static String SERVICE1;
 
     public static Servers currentServer;
 
@@ -25,77 +17,40 @@ public final class Wonderslate {
         QA, STAGING, PUBLISH, LIVE
     }
 
+    private Wonderslate() {
 
-    public static final Integer LIBRARY_TYPE_USER = 0;
-    public static final Integer LIBRARY_TYPE_STORE = 1;
-
-    private Wonderslate(Context mContext) {
-        this.mContext = mContext;
     }
 
-    public static synchronized void init(Context context, String siteId) {
+    public static synchronized void init() {
         if (mInstance == null) {
-            mInstance = new Wonderslate(context);
-            mInstance.setSiteId(siteId);
-            mInstance.setContext(context);
+            mInstance = new Wonderslate();
         }
     }
 
     public void setService() {
         //Select Base Service URL According To Server.
-        currentServer = Servers.LIVE; //Use QA, STAGING, PUBLISH, LIVE
+        currentServer = Servers.QA; //Use QA, STAGING, PUBLISH, LIVE
 
         switch (currentServer){
             case QA:
-                SERVICE = mContext.getResources().getString(R.string.service_qa);
+                SERVICE = SERVICE_QA;
                 break;
             case STAGING:
-                SERVICE = mContext.getResources().getString(R.string.service_staging);
+                SERVICE = SERVICE_STAGING;
                 break;
             case PUBLISH:
-                SERVICE = mContext.getResources().getString(R.string.service_publish);
+                SERVICE = SERVICE_PUBLISH;
                 break;
             case LIVE:
-                SERVICE = mContext.getResources().getString(R.string.service_live);
+                SERVICE = SERVICE_LIVE;
                 break;
             default:
                 break;
         }
     }
 
-    private void setSiteId(String siteId) {
-        mSiteID = siteId;
-    }
-
-    private void setContext(Context context) {
-        mContext = context;
-    }
-
     public static Wonderslate getInstance() {
         return mInstance;
-    }
-
-    public Context getContext() {
-        return mContext;
-    }
-
-    public String getSiteID() {
-        return mSiteID;
-    }
-
-    public WSSharedPrefs getSharedPrefs() {
-        if (this.sharedPrefs == null) {
-            this.sharedPrefs = WSSharedPrefs.getInstance(mContext);
-        }
-        return this.sharedPrefs;
-    }
-
-    public void setAppMode(ApplicationMode mode) {
-        appMode = mode;
-    }
-
-    public ApplicationMode getAppMode() {
-        return appMode;
     }
 
 }

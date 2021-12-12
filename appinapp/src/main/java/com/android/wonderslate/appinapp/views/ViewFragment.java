@@ -104,11 +104,11 @@ public class ViewFragment extends Fragment {
         wsSharedPrefs.setUserEmail(mEmail);
 
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, mEmail);
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
     }
 
-    /*public void refreshView() {
+    public void refreshView() {
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, mEmail);
-    }*/
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+    }
 }

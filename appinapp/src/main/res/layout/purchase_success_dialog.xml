@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content" android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/purchasesuccessimg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="40sp"/>
+
+    <TextView
+        android:id="@+id/paymentsuccesstext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/purchasesuccessimg"
+        android:layout_marginTop="4dp"
+        android:typeface="monospace"
+        android:textSize="22sp"
+        android:textColor="#444444"
+        android:text="Success"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/paymentsuccessdesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentsuccesstext"
+        android:layout_marginTop="16dp"
+        android:typeface="normal"
+        android:textSize="16sp"
+        android:textColor="#444444"
+        android:text="The following course has been successfully added to Your Ebook Library."
+        android:gravity="center"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/paymentorderid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentsuccessdesc"
+        android:layout_marginTop="4dp"
+        android:typeface="serif"
+        android:textSize="13sp"
+        android:textColor="#444444"
+        android:gravity="start"
+        android:maxLines="3"/>
+
+    <RelativeLayout
+        android:id="@+id/paymentorderdetailslayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentorderid"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/orderimg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="false"/>
+
+        <TextView
+            android:id="@+id/ordername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/orderimg"
+            android:layout_toEndOf="@id/orderimg"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:typeface="serif"
+            android:textSize="12sp"
+            android:textColor="#444444"
+            android:gravity="start"
+            android:layout_alignTop="@id/orderimg"/>
+
+        <TextView
+            android:id="@+id/ordername2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/orderimg"
+            android:layout_toEndOf="@id/orderimg"
+            android:layout_below="@id/ordername"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="4dp"
+            android:typeface="normal"
+            android:textSize="12sp"
+            android:textColor="#444444"
+            android:gravity="start"/>
+
+        <TextView
+            android:id="@+id/orderamt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/orderimg"
+            android:layout_toEndOf="@id/orderimg"
+            android:layout_below="@id/ordername2"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:typeface="serif"
+            android:textSize="16sp"
+            android:textColor="#AE2B24"
+            android:gravity="start"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/paysuccesslibbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paymentorderdetailslayout"
+        android:layout_marginTop="25dp"
+        android:text="START READING"
+        android:typeface="serif"
+        android:textColor="#ffffff"
+        android:textSize="16sp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:gravity="center"
+        android:background="@drawable/payment_success_lib_btn_back"
+        android:elevation="8dp"/>
+
+    <TextView
+        android:id="@+id/paymentsuccessshoplink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/paysuccesslibbtn"
+        android:layout_marginTop="24dp"
+        android:typeface="normal"
+        android:textSize="12sp"
+        android:textColor="#F05A2A"
+        android:text="Continue browsing more Ebooks"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

@@ -1,13 +1,10 @@
 package com.android.wonderslate.appinapp;
 
-import android.content.Context;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.views.ViewFragment;
-import com.android.wonderslate.appinapp.views.ViewInterface;
+
 
 /**
  * App In App Library powered by Wonderslate Technologies.
@@ -16,7 +13,6 @@ import com.android.wonderslate.appinapp.views.ViewInterface;
  */
 public final class AppInAppUtility {
 
-    private Context mContext;
     private String mUserName, mUserMobile, mClientSecret, mUserEmail, mSiteId;
 
     private static AppInAppUtility mInstance;
@@ -52,6 +48,8 @@ public final class AppInAppUtility {
 
     private void init(@NonNull String secret, @NonNull String userName, @NonNull String userMobile,
                       @NonNull String userEmail, @Nullable String siteId) {
+        Wonderslate.init();
+        Wonderslate.getInstance().setService();
         mUserName = userName;
         mUserMobile = userMobile;
         mUserEmail = userEmail;

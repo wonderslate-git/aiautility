@@ -3,33 +3,29 @@ package com.android.wonderslate.appinapp.util;
 import static android.content.Context.DOWNLOAD_SERVICE;
 import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 
-import android.app.Activity;
+import static com.android.wonderslate.appinapp.util.AppConstants.LAUNCH_URL;
+
 import android.app.DownloadManager;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
-import android.webkit.DownloadListener;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
 import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
-import com.android.wonderslate.appinapp.BuildConfig;
+import com.android.wonderslate.appinapp.Wonderslate;
 import com.android.wonderslate.appinapp.interfaces.AIAJSInterface;
 
 import java.io.File;
@@ -37,15 +33,12 @@ import java.io.File;
 public class AIAWebLoader {
     WebView webView;
     Context context;
-    String userName, userMobile;
     int i = 0;
 
     public AIAWebLoader(WebView webView, Context context) {
         this.webView = webView;
         this.context = context;
     }
-
-    private void startAppInApp() {}
 
     private void configureWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -58,7 +51,6 @@ public class AIAWebLoader {
         webView.getSettings().setAllowFileAccessFromFileURLs(true);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setAllowContentAccess(true);
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON);
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setDomStorageEnabled(true);
         webView.getSettings().setLoadWithOverviewMode(true);
@@ -81,39 +73,36 @@ public class AIAWebLoader {
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.TEXT_AUTOSIZING);
-        webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        //webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         //ToDo: In the release build enable security against chrome debug
         //setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         setWebContentsDebuggingEnabled(true);
 
-        webView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
-                DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        webView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
-                request.setMimeType(mimeType);
-                //------------------------COOKIE!!------------------------
-                String cookies = CookieManager.getInstance().getCookie(url);
-                request.addRequestHeader("cookie", cookies);
-                //------------------------COOKIE!!------------------------
-                request.addRequestHeader("User-Agent", userAgent);
-                request.setDescription("Downloading file...");
-                request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
-                request.allowScanningByMediaScanner();
-                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
-                DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
-                dm.enqueue(request);
-                Toast.makeText(context, "Downloading File", Toast.LENGTH_LONG).show();
-            }
+            request.setMimeType(mimeType);
+            //------------------------COOKIE!!------------------------
+            String cookies = CookieManager.getInstance().getCookie(url);
+            request.addRequestHeader("cookie", cookies);
+            //------------------------COOKIE!!------------------------
+            request.addRequestHeader("User-Agent", userAgent);
+            request.setDescription("Downloading file...");
+            request.setTitle(URLUtil.guessFileName(url, contentDisposition, mimeType));
+            request.allowScanningByMediaScanner();
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
+            DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+            dm.enqueue(request);
+            Toast.makeText(context, "Downloading File", Toast.LENGTH_LONG).show();
         });
     }
 
-    public void loadAIA(String siteId, String mobile, String secretKey, String username, String email){
+    public void loadAIA(String siteId, String mobile, String secretKey, String username){
         configureWebView(webView);
 
-        String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s", siteId, secretKey, mobile, username);
+        String url = String.format(Wonderslate.SERVICE + LAUNCH_URL, siteId, secretKey, mobile, username);
         webView.loadUrl(url);
         i = 0;
     }
@@ -150,12 +139,11 @@ public class AIAWebLoader {
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isConnected = activeNetwork != null &&
+        return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
-        return isConnected;
     }
 
-    class eBooksChromeClient extends WebChromeClient {
+    static class eBooksChromeClient extends WebChromeClient {
         // For 3.0+ Devices (Start)
         // onActivityResult attached before constructor
 
@@ -180,8 +168,6 @@ public class AIAWebLoader {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            if (newProgress == 100) {
-            }
         }
 
         @Override
