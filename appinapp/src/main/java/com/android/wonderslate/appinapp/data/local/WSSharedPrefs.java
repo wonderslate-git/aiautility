@@ -20,6 +20,7 @@ public class WSSharedPrefs {
     private static final String SHARED_PREFS_DEEP_LINK = "deepLink";
     private static final String SHARED_PREFS_DATA = "Data";
     private static final String SHARED_PREFS_USERMOBILE = "UserMobile";
+    private static final String SHARED_PREFS_CLIENTNAME = "ClientName";
 
     private Context appContext = null;
     private static WSSharedPrefs wsSharedPrefs;
@@ -162,5 +163,13 @@ public class WSSharedPrefs {
     public String getUseremail() {
         return wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_USEREMAIL, "");
         //return this.useremail;
+    }
+
+    public void setClientName(String value) {
+        this.sharedPrefs.edit().putString(SHARED_PREFS_CLIENTNAME, value).commit();
+    }
+
+    public String getClientName() {
+        return wsSharedPrefs.sharedPrefs.getString(SHARED_PREFS_CLIENTNAME, "");
     }
 }

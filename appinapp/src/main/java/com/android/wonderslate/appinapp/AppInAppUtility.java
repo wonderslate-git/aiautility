@@ -17,8 +17,7 @@ import com.android.wonderslate.appinapp.views.ViewInterface;
 public final class AppInAppUtility {
 
     private Context mContext;
-    private WSSharedPrefs wsSharedPrefs;
-    private String mUserName, mUserMobile, mClientSecret;
+    private String mUserName, mUserMobile, mClientSecret, mUserEmail, mSiteId;
 
     private static AppInAppUtility mInstance;
 
@@ -26,20 +25,18 @@ public final class AppInAppUtility {
 
     /**
      * Returns AppInApp static instance. This instance is the entry point into the library.
-     * The instance returned can be null, depending on the value of context param.
-     * @param context application context is required(mandatory).
+     * The instance returned can be null, depending on the value of context param
      * @param secret client secret.
      * @param userName the registered name of the user who is currently logged in to the client app.
      * @param userMobile the registered mobile number of the user
      * @return App In App instance
      */
-    public static AppInAppUtility getInstance(@NonNull Context context, @NonNull String secret, @NonNull String userName,
+    public static AppInAppUtility getInstance(@NonNull String secret, @NonNull String userName,
                                               @NonNull String userMobile, @NonNull String userEmail, @NonNull String siteId) {
         if (mInstance == null) {
             mInstance = new AppInAppUtility();
         }
-        mInstance.setContext(context);
-        mInstance.init(mInstance.getmContext(), secret, userName, userMobile, userEmail, siteId);
+        mInstance.init(secret, userName, userMobile, userEmail, siteId);
         return mInstance;
     }
 
@@ -49,25 +46,16 @@ public final class AppInAppUtility {
      */
     @NonNull
     public ViewFragment getAIAFragment() {
-        return ViewFragment.newInstance(wsSharedPrefs.getSiteId(), wsSharedPrefs.getAccessToken(), wsSharedPrefs.getUserName(),
-                wsSharedPrefs.getUsermobile(), wsSharedPrefs.getUseremail());
+        return ViewFragment.newInstance(mSiteId, mClientSecret, mUserName,
+                mUserMobile, mUserEmail);
     }
 
-    private void init(@NonNull Context context, @NonNull String secret, @NonNull String userName, @NonNull String userMobile,
+    private void init(@NonNull String secret, @NonNull String userName, @NonNull String userMobile,
                       @NonNull String userEmail, @Nullable String siteId) {
-        wsSharedPrefs = WSSharedPrefs.getInstance(context);
-        wsSharedPrefs.setUsername(userName);
-        wsSharedPrefs.setUsermobile(userMobile);
-        wsSharedPrefs.setUserEmail(userEmail);
-        wsSharedPrefs.setAccessToken(secret);
-        wsSharedPrefs.setSiteId(siteId);
-    }
-
-    private void setContext(Context context) {
-        mContext = context;
-    }
-
-    private Context getmContext() {
-        return mContext;
+        mUserName = userName;
+        mUserMobile = userMobile;
+        mUserEmail = userEmail;
+        mSiteId = siteId;
+        mClientSecret = secret;
     }
 }

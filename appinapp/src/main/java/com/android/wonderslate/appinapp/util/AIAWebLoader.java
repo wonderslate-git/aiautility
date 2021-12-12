@@ -36,18 +36,16 @@ import java.io.File;
 
 public class AIAWebLoader {
     WebView webView;
-    Activity activity;
+    Context context;
     String userName, userMobile;
     int i = 0;
 
-    public AIAWebLoader(WebView webView, Activity activity) {
+    public AIAWebLoader(WebView webView, Context context) {
         this.webView = webView;
-        this.activity = activity;
+        this.context = context;
     }
 
-    private void startAppInApp() {
-
-    }
+    private void startAppInApp() {}
 
     private void configureWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -77,7 +75,8 @@ public class AIAWebLoader {
 
         webView.getSettings().setAppCacheEnabled(false);
         webView.getSettings().setDatabaseEnabled(true);
-        webView.addJavascriptInterface(new AIAJSInterface(webView, activity), "JSInterface");
+
+        webView.addJavascriptInterface(new AIAJSInterface(webView, context), "JSInterface");
 
         CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
 
@@ -104,14 +103,14 @@ public class AIAWebLoader {
                 request.allowScanningByMediaScanner();
                 request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                 request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
-                DownloadManager dm = (DownloadManager) activity.getSystemService(DOWNLOAD_SERVICE);
+                DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
                 dm.enqueue(request);
-                Toast.makeText(activity, "Downloading File", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Downloading File", Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    public void loadAIA(String siteId, String mobile, String secretKey, String username){
+    public void loadAIA(String siteId, String mobile, String secretKey, String username, String email){
         configureWebView(webView);
 
         String url = String.format("https://qa.wonderslate.com/intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s", siteId, secretKey, mobile, username);
@@ -127,9 +126,9 @@ public class AIAWebLoader {
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            if (isNetworkConnected(activity.getBaseContext())) {
+            if (isNetworkConnected(context)) {
                 try {
-                    File file = new File(activity.getFilesDir(), "aia" + ++i);
+                    File file = new File(context.getFilesDir(), "aia" + ++i);
                     String pathToArchive = "file://" + file.getAbsolutePath() + ".mht";
                     Log.d("AppInApp", "Web Archive: " + pathToArchive);
                     Thread.sleep(2000);

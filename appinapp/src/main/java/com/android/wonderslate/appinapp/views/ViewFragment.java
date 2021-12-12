@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.wonderslate.appinapp.R;
+import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.util.AIAWebLoader;
 
 /**
@@ -27,17 +28,21 @@ public class ViewFragment extends Fragment {
     private static final String ARG_PARAM2 = "secret";
     private static final String ARG_PARAM3 = "userName";
     private static final String ARG_PARAM4 = "userMobile";
+    private static final String ARG_PARAM5 = "userEmail";
 
     // TODO: Rename and change types of parameters
     private String mSiteId;
     private String mSecret;
     private String mName;
     private String mMobile;
+    private String mEmail;
 
     private View rootView;
-    private WebView aiaWebView;
+    public static WebView aiaWebView;
     private LinearLayout errorLayout;
     private TextView errorTxtView;
+
+    WSSharedPrefs wsSharedPrefs;
 
     private ViewFragment() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class ViewFragment extends Fragment {
         args.putString(ARG_PARAM2, secret);
         args.putString(ARG_PARAM3, name);
         args.putString(ARG_PARAM4, mobile);
+        args.putString(ARG_PARAM5, email);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +79,7 @@ public class ViewFragment extends Fragment {
             mSecret = getArguments().getString(ARG_PARAM2);
             mName = getArguments().getString(ARG_PARAM3);
             mMobile = getArguments().getString(ARG_PARAM4);
+            mEmail = getArguments().getString(ARG_PARAM5);
         }
     }
 
@@ -88,12 +95,20 @@ public class ViewFragment extends Fragment {
     private void init() {
         aiaWebView = rootView.findViewById(R.id.aia_webview);
 
-        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+        //Store the values in Shared Prefs with the Fragment's Context
+        wsSharedPrefs = WSSharedPrefs.getInstance(this.getContext());
+        wsSharedPrefs.setSiteId(mSiteId);
+        wsSharedPrefs.setAccessToken(mSecret);
+        wsSharedPrefs.setUsername(mName);
+        wsSharedPrefs.setUsermobile(mMobile);
+        wsSharedPrefs.setUserEmail(mEmail);
+
+        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, mEmail);
     }
 
-    public void refreshView() {
+    /*public void refreshView() {
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
-    }
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, mEmail);
+    }*/
 }
