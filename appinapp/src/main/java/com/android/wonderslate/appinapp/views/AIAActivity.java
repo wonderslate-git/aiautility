@@ -19,10 +19,9 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
     WSSharedPrefs wsSharedPrefs;
     WebView webView;
     String bookId, bookTitle, price, clientName;
-    Activity clientContext;
 
-    public AIAActivity(Activity clientContext) {
-        this.clientContext = clientContext;
+    public AIAActivity() {
+
     }
 
     @Override
