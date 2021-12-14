@@ -21,6 +21,11 @@ public class WSSharedPrefs {
     private static final String SHARED_PREFS_DATA = "Data";
     private static final String SHARED_PREFS_USERMOBILE = "UserMobile";
     private static final String SHARED_PREFS_CLIENTNAME = "ClientName";
+    private static final String SHARED_PREFS_BOUGHT_BOOK_ID = "BookId";
+    private static final String SHARED_PREFS_BOUGHT_BOOK_TITLE = "BookTitle";
+    private static final String SHARED_PREFS_BOUGHT_BOOK_PRICE = "BookPrice";
+    private static final String SHARED_PREFS_BOUGHT_BOOK_AUTHOR = "BookAuthor";
+    private static final String SHARED_PREFS_BOUGHT_BOOK_COVER = "BookCover";
 
     private Context appContext = null;
     private static WSSharedPrefs wsSharedPrefs;

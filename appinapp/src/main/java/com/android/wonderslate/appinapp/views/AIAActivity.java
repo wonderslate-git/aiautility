@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -54,6 +55,8 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
     String bookId, bookTitle, price, clientName, mPaymentId, mCoverImage, mAuthorName;
     private int imageHeight, imageWidth, cornerRadius;
 
+    private static Activity aiaActivityInstance;
+
     public AIAActivity() {
 
     }
@@ -66,17 +69,14 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
         bookTitle = getIntent().getStringExtra("title");
         price = getIntent().getStringExtra("price");
         clientName = getIntent().getStringExtra("client");
+        mAuthorName = getIntent().getStringExtra("author");
+        mCoverImage = getIntent().getStringExtra("coverImage");
         wsSharedPrefs.setClientName(clientName);
-        mCoverImage = "J563.jpg";
+        aiaActivityInstance = AIAActivity.this;
         startPayment(bookId, bookTitle, price, ViewFragment.aiaWebView);
     }
 
     public void startPayment(String bookId, String bookTitle, String price, WebView webView) {
-        Log.d("AppInApp", "start payment");
-        Log.d("AppInApp", "id " + bookId);
-        Log.d("AppInApp", "title " + bookTitle);
-        Log.d("AppInApp", "price " + price);
-
         this.webView = webView;
         this.bookId = bookId;
 
@@ -121,11 +121,15 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
 
     @Override
     public void onPaymentSuccess(String s) {
-        String jsEvaluation = String.format("buyBookAppinApp(%s,%s,%s,%s);", s, bookId, " ", " ");
+        //Start the loader here
+        //Save payment related things in shared prefs -- book id, title, price, author, coverImage
+        String jsEvaluation = String.format("buyBookAppinApp('%s','%s','%s');", s, bookId, "mobile");
 
         mPaymentId = s;
 
-        webView.evaluateJavascript(jsEvaluation, value -> new PaymentSuccessDialog().showDialog(AIAActivity.this));
+        webView.evaluateJavascript(jsEvaluation, null);
+        new PaymentSuccessDialog().showDialog(AIAActivity.this);
+        finish();
     }
 
     @Override
@@ -189,7 +193,7 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
             }
 
             String coverImgLoc = URL_SELECTED_BOOK_IMAGE_API + "&" + HTTP_IMAGE_FILENAME + "="
-                    + mCoverImage + "&" + HTTP_OBJECT_ID + "=" + "216310"; //TODO Replace last value with bookId variable
+                    + mCoverImage + "&" + HTTP_OBJECT_ID + "=" + bookId;
 
             imageWidth = calculateDPI(64);
             imageHeight = calculateDPI(80);

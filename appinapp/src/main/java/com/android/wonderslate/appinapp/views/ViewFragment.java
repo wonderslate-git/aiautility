@@ -108,7 +108,7 @@ public class ViewFragment extends Fragment {
     }
 
     public void refreshView() {
-        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, getActivity());
+        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
         aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
     }
 }
