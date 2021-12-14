@@ -52,9 +52,9 @@ afterEvaluate {
                 // which results in publishing an app bundle.
                 from components.release
 
-                groupId = 'com.github.wonderslate-git'
-                artifactId = 'aiautility'
-                version = '0.0.4'
+                groupId = 'com.github.anirudha-banerjee'
+                artifactId = 'WS-App-In-App'
+                version = '0.0.5.5'
             }
         }
     }
