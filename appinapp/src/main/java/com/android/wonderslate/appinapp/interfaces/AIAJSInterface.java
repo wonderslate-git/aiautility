@@ -35,6 +35,19 @@ public class AIAJSInterface {
     }
 
     @JavascriptInterface
+    public void onBookPurchasePurchase(String status) {
+        Log.e("AppInApp", "Book Purchase Status " + status);
+        if (status != null && !status.isEmpty() && status.equalsIgnoreCase("ok")) {
+            Log.e("AppInApp", "Book Purchase Successful");
+
+        }
+        else {
+            Log.e("AppInApp", "Book Purchase Not Successful");
+            activityContext.onPaymentError(404, "Payment Failure");
+        }
+    }
+
+    @JavascriptInterface
     public void onBookPurchase(String status) {
         if (status != null && !status.isEmpty() && status.equalsIgnoreCase("ok")) {
             Log.d("AppInApp", "Book Purchase Successful");

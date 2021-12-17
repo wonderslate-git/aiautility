@@ -92,7 +92,7 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
             options.put("amount", (Double.parseDouble(price) * 100) + "");
             JSONObject preFill = new JSONObject();
             preFill.put("name", wsSharedPrefs.getUserName());
-            preFill.put("email", wsSharedPrefs.getUseremail()); //hardcoded email Todo: get the user email from the client app
+            preFill.put("email", wsSharedPrefs.getUseremail());
             preFill.put("contact", wsSharedPrefs.getUsermobile());
             JSONObject ReadOnly = new JSONObject();
             ReadOnly.put("email", "true");
@@ -123,13 +123,13 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
     public void onPaymentSuccess(String s) {
         //Start the loader here
         //Save payment related things in shared prefs -- book id, title, price, author, coverImage
-        String jsEvaluation = String.format("buyBookAppinApp('%s','%s','%s');", s, bookId, "mobile");
+        String jsEvaluation = String.format("buyBookAppinAppPurchase('%s','%s','%s');", s, bookId, "mobile");
 
         mPaymentId = s;
 
         webView.evaluateJavascript(jsEvaluation, null);
         new PaymentSuccessDialog().showDialog(AIAActivity.this);
-        finish();
+        //finish();
     }
 
     @Override
