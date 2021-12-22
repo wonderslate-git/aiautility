@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.wonderslate.appinapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -21,7 +22,8 @@
 
         <meta-data
             android:name="com.razorpay.ApiKey"
-            android:value="${razorpay_key}" />
+            android:value="${razorpay_key}"
+            tools:replace="android:value"/>
     </application>
 
 </manifest>
