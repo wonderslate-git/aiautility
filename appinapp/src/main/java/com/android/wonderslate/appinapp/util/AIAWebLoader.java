@@ -122,11 +122,8 @@ public class AIAWebLoader {
                     Log.d("AppInApp", "Web Archive: " + pathToArchive);
                     Thread.sleep(2000);
                     view.saveWebArchive(pathToArchive);
-
                 } catch (InterruptedException e) {
-
                     Log.e("AppInApp", "Exception while saving web archive", e);
-
                 }
 
             }
