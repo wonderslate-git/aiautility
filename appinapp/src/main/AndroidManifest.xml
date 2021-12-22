@@ -23,7 +23,7 @@
         <meta-data
             android:name="com.razorpay.ApiKey"
             android:value="${razorpay_key}"
-            tools:replace="android:value"/>
+            tools:strict="android:value" />
     </application>
 
 </manifest>
