@@ -14,7 +14,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        manifestPlaceholders = [razorpay_key: WSRazorPay_Live.replaceAll("\"", "")]
+        manifestPlaceholders = [razorpay_key: WSRazorPay_Sandbox.replaceAll("\"", "")]
     }
 
     buildTypes {
