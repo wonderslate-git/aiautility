@@ -29,7 +29,7 @@ public final class Wonderslate {
 
     public void setService() {
         //Select Base Service URL According To Server.
-        currentServer = Servers.PUBLISH; //Use QA, STAGING, PUBLISH, LIVE
+        currentServer = Servers.LIVE; //Use QA, STAGING, PUBLISH, LIVE
 
         switch (currentServer){
             case QA:
