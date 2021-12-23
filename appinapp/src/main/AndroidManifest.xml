@@ -19,10 +19,6 @@
         <activity
             android:name=".views.AIAActivity"
             android:exported="false" />
-
-        <meta-data
-            android:name="com.razorpay.ApiKey"
-            android:value="${razorpay_key}" />
     </application>
 
 </manifest>

@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.wonderslate.appinapp.BuildConfig;
 import com.android.wonderslate.appinapp.R;
 import com.android.wonderslate.appinapp.Wonderslate;
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
@@ -82,6 +83,7 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
 
         final Activity activity = this;
         final Checkout co = new Checkout();
+        co.setKeyID(BuildConfig.razorpay_key);
         //co.setImage(R.mipmap.ic_launcher); //Company logo
         try {
             JSONObject options = new JSONObject();
