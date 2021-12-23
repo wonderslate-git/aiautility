@@ -14,7 +14,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        manifestPlaceholders = [razorpay_key: WSRazorPay_Sandbox.replaceAll("\"", "")]
+        manifestPlaceholders = [razorpay_key: WSRazorPay_Live.replaceAll("\"", "")]
     }
 
     buildTypes {
@@ -54,7 +54,7 @@ afterEvaluate {
 
                 groupId = 'com.github.wonderslate-git'
                 artifactId = 'aiautility'
-                version = '0.1.4'
+                version = '0.1.5'
             }
         }
     }
