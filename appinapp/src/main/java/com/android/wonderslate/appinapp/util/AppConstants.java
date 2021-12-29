@@ -14,6 +14,7 @@ public final class AppConstants {
     public static final String SERVICE_STAGING = "https://staging.wonderslate.com/";
     public static final String SERVICE_PUBLISH = "https://publish.wonderslate.com/";
     public static final String SERVICE_LIVE = "https://www.wonderslate.com/";
+    public static final String SERVICE_QADEV = "https://dev.wonderslate.com/";
 
     public static final String LAUNCH_URL = "intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s";
     public static final String APP_IN_APP_LIBRARY_URL = "wsLibrary/myLibrary";

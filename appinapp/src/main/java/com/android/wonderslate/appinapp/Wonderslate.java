@@ -3,6 +3,7 @@ package com.android.wonderslate.appinapp;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_LIVE;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_PUBLISH;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QA;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QADEV;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_STAGING;
 
 public final class Wonderslate {
@@ -14,7 +15,7 @@ public final class Wonderslate {
     public static Servers currentServer;
 
     public enum Servers {
-        QA, STAGING, PUBLISH, LIVE
+        QA, QADEV, STAGING, PUBLISH, LIVE
     }
 
     private Wonderslate() {
@@ -29,11 +30,14 @@ public final class Wonderslate {
 
     public void setService() {
         //Select Base Service URL According To Server.
-        currentServer = Servers.LIVE; //Use QA, STAGING, PUBLISH, LIVE
+        currentServer = Servers.QA; //Use QA, STAGING, PUBLISH, LIVE
 
         switch (currentServer){
             case QA:
                 SERVICE = SERVICE_QA;
+                break;
+            case QADEV:
+                SERVICE = SERVICE_QADEV;
                 break;
             case STAGING:
                 SERVICE = SERVICE_STAGING;

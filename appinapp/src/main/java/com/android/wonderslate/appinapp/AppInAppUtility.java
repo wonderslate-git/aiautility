@@ -46,6 +46,13 @@ public final class AppInAppUtility {
                 mUserMobile, mUserEmail);
     }
 
+    @NonNull
+    public String getAIAPurchaseOrder() {
+        //Call Purchase History API
+
+        return "";
+    }
+
     private void init(@NonNull String secret, @NonNull String userName, @NonNull String userMobile,
                       @NonNull String userEmail, @Nullable String siteId) {
         Wonderslate.init();
