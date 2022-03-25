@@ -1,7 +1,7 @@
 package com.android.wonderslate.appinapp.views;
 
-import static com.android.wonderslate.appinapp.util.AppConstants.APP_IN_APP_LIBRARY_URL;
-import static com.android.wonderslate.appinapp.util.AppConstants.APP_IN_APP_STORE_URL;
+import static com.android.wonderslate.appinapp.data.remote.APIs.APP_IN_APP_LIBRARY_URL;
+import static com.android.wonderslate.appinapp.data.remote.APIs.APP_IN_APP_STORE_URL;
 import static com.android.wonderslate.appinapp.util.AppConstants.HTTP_IMAGE_FILENAME;
 import static com.android.wonderslate.appinapp.util.AppConstants.HTTP_OBJECT_ID;
 import static com.android.wonderslate.appinapp.util.AppConstants.URL_SELECTED_BOOK_IMAGE_API;
@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
@@ -24,11 +23,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.ValueCallback;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,14 +34,12 @@ import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.BuildConfig;
 import com.android.wonderslate.appinapp.R;
-import com.android.wonderslate.appinapp.Wonderslate;
+import com.android.wonderslate.appinapp.data.remote.ServerURLManager;
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.util.ImageLoader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.snackbar.Snackbar;
 import com.razorpay.Checkout;
 import com.razorpay.PaymentResultListener;
 
@@ -242,14 +237,14 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
 
             startReadingBtn.setOnClickListener(view -> {
                 Toast.makeText(AIAActivity.this, "Redirecting to Ebooks Library...", Toast.LENGTH_SHORT).show();
-                webView.loadUrl(Wonderslate.SERVICE + APP_IN_APP_LIBRARY_URL);
+                webView.loadUrl(ServerURLManager.SERVICE + APP_IN_APP_LIBRARY_URL);
                 dialog.dismiss();
                 finish();
             });
 
             paySuccessBrowseBooks.setOnClickListener(view -> {
                 Toast.makeText(AIAActivity.this, "Redirecting to Ebooks Store...", Toast.LENGTH_SHORT).show();
-                webView.loadUrl(Wonderslate.SERVICE + APP_IN_APP_STORE_URL);
+                webView.loadUrl(ServerURLManager.SERVICE + APP_IN_APP_STORE_URL);
                 dialog.dismiss();
                 finish();
             });

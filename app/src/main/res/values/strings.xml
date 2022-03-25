@@ -23,6 +23,7 @@
     <string name="loading_tasks_error">Error while loading tasks</string>
     <string name="completed_tasks_cleared">Completed tasks cleared</string>
     <string name="menu_filter">Filter</string>
+    <string name="menu_clear_data">Clear Data</string>
     <string name="menu_clear">Clear completed</string>
     <string name="menu_delete_task">Delete task</string>
     <string name="navigation_view_header_title">TO-DOs</string>
@@ -56,6 +57,7 @@
     <string name="no_tasks_completed">You have no completed TO-DOs!</string>
     <string name="no_tasks_add">Add a TO-DO item +</string>
     <string name="refresh">Refresh</string>
+    <string name="order_history">Order History</string>
     <string name="successfully_deleted_task_message">Task was deleted</string>
     <string name="successfully_added_task_message">TO-DO added</string>
     <string name="no_data_description" />

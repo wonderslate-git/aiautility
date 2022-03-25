@@ -1,4 +1,4 @@
-package com.android.wonderslate.appinapp;
+package com.android.wonderslate.appinapp.data.remote;
 
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_LIVE;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_PUBLISH;
@@ -6,9 +6,9 @@ import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QA;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QADEV;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_STAGING;
 
-public final class Wonderslate {
+public final class ServerURLManager {
 
-    private static Wonderslate mInstance;
+    private static ServerURLManager mInstance;
 
     public static String SERVICE;
 
@@ -18,13 +18,13 @@ public final class Wonderslate {
         QA, QADEV, STAGING, PUBLISH, LIVE
     }
 
-    private Wonderslate() {
+    private ServerURLManager() {
 
     }
 
     public static synchronized void init() {
         if (mInstance == null) {
-            mInstance = new Wonderslate();
+            mInstance = new ServerURLManager();
         }
     }
 
@@ -53,7 +53,7 @@ public final class Wonderslate {
         }
     }
 
-    public static Wonderslate getInstance() {
+    public static ServerURLManager getInstance() {
         return mInstance;
     }
 

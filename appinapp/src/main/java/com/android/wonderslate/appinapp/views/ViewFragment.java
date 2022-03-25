@@ -1,5 +1,6 @@
 package com.android.wonderslate.appinapp.views;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,10 +11,13 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.R;
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.util.AIAWebLoader;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +48,8 @@ public class ViewFragment extends Fragment {
 
     WSSharedPrefs wsSharedPrefs;
 
+    static ViewFragment aiaViewFragment;
+
     private ViewFragment() {
         // Required empty public constructor
     }
@@ -58,7 +64,6 @@ public class ViewFragment extends Fragment {
      * @param mobile Parameter 2.
      * @return A new instance of fragment ViewFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static ViewFragment newInstance(String siteId, String secret, String name, String mobile, String email) {
         ViewFragment fragment = new ViewFragment();
         Bundle args = new Bundle();
@@ -68,6 +73,7 @@ public class ViewFragment extends Fragment {
         args.putString(ARG_PARAM4, mobile);
         args.putString(ARG_PARAM5, email);
         fragment.setArguments(args);
+        aiaViewFragment = fragment;
         return fragment;
     }
 
@@ -110,5 +116,19 @@ public class ViewFragment extends Fragment {
     public void refreshView() {
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
         aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+    }
+
+    public static Context getAIAContext() {
+        if (aiaViewFragment != null) {
+            if (aiaViewFragment.getActivity() != null) {
+                return aiaViewFragment.getActivity().getApplicationContext();
+            }
+            else {
+                return null;
+            }
+        }
+        else {
+            return null;
+        }
     }
 }
