@@ -132,7 +132,7 @@ public class AIAWebLoader {
             webView.loadUrl(url);
         }*/
         String url = String.format(ServerURLManager.SERVICE + LAUNCH_URL, siteId, secretKey, mobile, username);
-        Log.e("Loader", "URL: " + url);
+        Log.d("Loader", "URL: " + url);
         webView.loadUrl(url);
         i = 0;
     }
@@ -211,11 +211,11 @@ public class AIAWebLoader {
 
         public boolean onConsoleMessage(ConsoleMessage cm) {
             if (cm != null && cm.sourceId().length() > 0) {
-                Log.e("AppInApp", cm.message() + " -- From line "
+                Log.i("AppInApp", cm.message() + " -- From line "
                         + cm.lineNumber() + " of "
                         + cm.sourceId().substring(10));
             } else if (cm != null) {
-                Log.e("AppInApp", cm.message() + " -- From line "
+                Log.i("AppInApp", cm.message() + " -- From line "
                         + cm.lineNumber());
             }
             return true;

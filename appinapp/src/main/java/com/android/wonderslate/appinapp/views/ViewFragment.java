@@ -3,8 +3,13 @@ package com.android.wonderslate.appinapp.views;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +30,7 @@ import java.util.Objects;
  * create an instance of this fragment.
  */
 public class ViewFragment extends Fragment {
+    private static String TAG = "AIAFragment";
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -111,6 +117,36 @@ public class ViewFragment extends Fragment {
 
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
         aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+    }
+
+    /**
+     * Called immediately after {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     *
+     * @param view               The View returned by {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Log.i(TAG, "Back btn was pressed.");
+                if (aiaWebView != null && aiaWebView.canGoBack()) {
+                    aiaWebView.goBack();
+                }
+                else {
+                    if (getActivity() != null) {
+                        getActivity().finish();
+                    }
+                }
+            }
+        });
     }
 
     public void refreshView() {

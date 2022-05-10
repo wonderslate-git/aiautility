@@ -25,7 +25,7 @@ import java.util.HashMap;
 /**
  * App In App Library powered by ServerURLManager Technologies.
  * This class is the entry point to App In App Library.
- * @author ServerURLManager Technologies
+ * @author Wonderslate Technologies
  */
 public final class AppInAppUtility {
 
@@ -65,7 +65,18 @@ public final class AppInAppUtility {
         return viewFragment;
     }
 
+    /**
+     * Returns fragment instance of type ViewFragment. This fragment instance needs to fill up the container Activity in the client app.
+     * @return fragment of type ViewFragment
+     */
     @NonNull
+    public ViewFragment getAIAActivity() {
+        viewFragment = ViewFragment.newInstance(mSiteId, mClientSecret, mUserName,
+                mUserMobile, mUserEmail);
+
+        return viewFragment;
+    }
+
     public void getAIAPurchaseOrder(UserPurchaseHistoryCallback purchaseHistoryCallback) {
         final String[] response = new String[1];
         //Call Purchase History API
@@ -74,18 +85,19 @@ public final class AppInAppUtility {
             AIANetworkManager networkManager = AIANetworkManager.getInstance(viewFragment.getActivity().getApplicationContext());
 
             APIs apis = APIs.getInstance(mSiteId);
+            String aiaUsername = WSSharedPrefs.getInstance(viewFragment.getContext()).getSiteId() + "_" + WSSharedPrefs.getInstance(viewFragment.getContext()).getUsermobile();
             HashMap<String, String> params = new HashMap<>();
-            params.put("username", "36_" + WSSharedPrefs.getInstance(viewFragment.getContext()).getUsermobile());
+            params.put("username", aiaUsername);
             String url = apis.getServiceURL(APIs.SERVICE_GET_USER_PURCHASE_HISTORY, params);
 
-            Log.e("App In App", "API Call URL: " + url);
+            Log.i("App In App", "API Call URL: " + url);
 
             AIARemoteCallback aiaRemoteCallback = new AIARemoteCallback() {
                 @Override
                 public void onSuccess(UrlRequest request, UrlResponseInfo info, byte[] bodyBytes, long latencyNanos) {
                     try {
                         response[0] = new JSONObject(new String(bodyBytes)).toString();
-                        Log.e("response", "api response: " + response[0]);
+                        Log.d("response", "api response: " + response[0]);
                         purchaseHistoryCallback.onSuccess(Integer.toString(info.getHttpStatusCode()), info.getHttpStatusText(), response[0]);
                     } catch (JSONException e) {
                         response[0] = "";

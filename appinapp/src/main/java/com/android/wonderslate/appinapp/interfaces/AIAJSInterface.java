@@ -36,9 +36,9 @@ public class AIAJSInterface {
 
     @JavascriptInterface
     public void onBookPurchasePurchase(String status) {
-        Log.e("AppInApp", "Book Purchase Status " + status);
+        Log.d("AppInApp", "Book Purchase Status " + status);
         if (status != null && !status.isEmpty() && status.equalsIgnoreCase("ok")) {
-            Log.e("AppInApp", "Book Purchase Successful");
+            Log.d("AppInApp", "Book Purchase Successful");
 
         }
         else {

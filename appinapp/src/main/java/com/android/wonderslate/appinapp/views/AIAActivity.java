@@ -4,6 +4,21 @@ import static com.android.wonderslate.appinapp.data.remote.APIs.APP_IN_APP_LIBRA
 import static com.android.wonderslate.appinapp.data.remote.APIs.APP_IN_APP_STORE_URL;
 import static com.android.wonderslate.appinapp.util.AppConstants.HTTP_IMAGE_FILENAME;
 import static com.android.wonderslate.appinapp.util.AppConstants.HTTP_OBJECT_ID;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_BOOK_ID;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_COMPANY_NAME;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_CURRENCY;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_CURRENCY_INR;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_NOTES;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_PREFILL;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_PREFILL_USER_CONTACT;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_PREFILL_USER_EMAIL;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_PREFILL_USER_NAME;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_READ_ONLY;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_THEME;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_THEME_COLOR;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_TRANSACTION_AMOUNT;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_TRANSACTION_DESCRIPTION;
+import static com.android.wonderslate.appinapp.util.AppConstants.RZP_USER_NAME;
 import static com.android.wonderslate.appinapp.util.AppConstants.URL_SELECTED_BOOK_IMAGE_API;
 
 import androidx.annotation.NonNull;
@@ -51,8 +66,6 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
     String bookId, bookTitle, price, clientName, mPaymentId, mCoverImage, mAuthorName;
     private int imageHeight, imageWidth, cornerRadius;
 
-    private static Activity aiaActivityInstance;
-
     public AIAActivity() {
 
     }
@@ -68,7 +81,6 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
         mAuthorName = getIntent().getStringExtra("author");
         mCoverImage = getIntent().getStringExtra("coverImage");
         wsSharedPrefs.setClientName(clientName);
-        aiaActivityInstance = AIAActivity.this;
         startPayment(bookId, bookTitle, price, ViewFragment.aiaWebView);
     }
 
@@ -82,27 +94,27 @@ public class AIAActivity extends AppCompatActivity implements PaymentResultListe
         //co.setImage(R.mipmap.ic_launcher); //Company logo
         try {
             JSONObject options = new JSONObject();
-            options.put("name", wsSharedPrefs.getClientName()); //Company Name
-            options.put("description", bookTitle + " (Course " + bookId + ")");
+            options.put(RZP_COMPANY_NAME, wsSharedPrefs.getClientName()); //Company Name
+            options.put(RZP_TRANSACTION_DESCRIPTION, String.format("%s (Course %s)", bookTitle, bookId));
             //You can omit the image option to fetch the image from dashboard
-            options.put("currency", "INR");
-            options.put("amount", (Double.parseDouble(price) * 100) + "");
+            options.put(RZP_CURRENCY, RZP_CURRENCY_INR);
+            options.put(RZP_TRANSACTION_AMOUNT, (Double.parseDouble(price) * 100) + "");
             JSONObject preFill = new JSONObject();
-            preFill.put("name", wsSharedPrefs.getUserName());
-            preFill.put("email", wsSharedPrefs.getUseremail());
-            preFill.put("contact", wsSharedPrefs.getUsermobile());
+            preFill.put(RZP_PREFILL_USER_NAME, wsSharedPrefs.getUserName());
+            preFill.put(RZP_PREFILL_USER_EMAIL, wsSharedPrefs.getUseremail());
+            preFill.put(RZP_PREFILL_USER_CONTACT, wsSharedPrefs.getUsermobile());
             JSONObject ReadOnly = new JSONObject();
-            ReadOnly.put("email", "true");
-            ReadOnly.put("contact", "true");
+            ReadOnly.put(RZP_PREFILL_USER_EMAIL, "true");
+            ReadOnly.put(RZP_PREFILL_USER_CONTACT, "true");
             JSONObject theme = new JSONObject();
-            theme.put("color", "#F05A2A");
-            options.put("prefill", preFill);
-            options.put("theme", theme);
-            options.put("readonly", ReadOnly);
+            theme.put(RZP_THEME_COLOR, "#F05A2A");
+            options.put(RZP_PREFILL, preFill);
+            options.put(RZP_THEME, theme);
+            options.put(RZP_READ_ONLY, ReadOnly);
             JSONObject notes = new JSONObject();
-            notes.put("bookId", bookId);
-            notes.put("username", wsSharedPrefs.getUsermobile());
-            options.put("notes", notes);
+            notes.put(RZP_BOOK_ID, bookId);
+            notes.put(RZP_USER_NAME, wsSharedPrefs.getUsermobile());
+            options.put(RZP_NOTES, notes);
 
             co.open(activity, options);
         } catch (Exception e) {

@@ -75,7 +75,7 @@ public class AppInAppActivity extends AppCompatActivity {
     }
 
     public void startAppInApp(String name, String email, String mobile, @Nullable Dialog dialog) {
-        appInAppUtility = AppInAppUtility.getInstance( "b534cZ9845", name, mobile, email, "36");
+        appInAppUtility = AppInAppUtility.getInstance( "b534cZ9845", name, mobile, email, "28");
 
         getSupportFragmentManager().beginTransaction().add(R.id.appinappframe, appInAppUtility
                 .getAIAFragment()).commit();
@@ -84,7 +84,7 @@ public class AppInAppActivity extends AppCompatActivity {
             dialog.dismiss();
         }
 
-        toDoSharedPrefs.setSiteId("36");
+        toDoSharedPrefs.setSiteId("28");
         toDoSharedPrefs.setAccessToken("b534cZ9845");
         toDoSharedPrefs.setUsername(name);
         toDoSharedPrefs.setUsermobile(mobile);
@@ -133,7 +133,7 @@ public class AppInAppActivity extends AppCompatActivity {
                             Toast.makeText(AppInAppActivity.this, "Purchase Response: " + responseStatus, Toast.LENGTH_SHORT).show();
                         }
                     });
-                    Log.e("AIAActivity", "Purchase History: " + responseBody);
+                    Log.d("AIAActivity", "Purchase History: " + responseBody);
                 }
 
                 @Override
