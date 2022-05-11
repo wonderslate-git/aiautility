@@ -5,6 +5,7 @@ import static android.webkit.WebView.setWebContentsDebuggingEnabled;
 
 import static com.android.wonderslate.appinapp.data.remote.APIs.LAUNCH_URL;
 
+import android.annotation.SuppressLint;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -18,23 +19,25 @@ import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.PermissionRequest;
 import android.webkit.URLUtil;
-import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.android.wonderslate.appinapp.data.remote.ServerURLManager;
 import com.android.wonderslate.appinapp.interfaces.AIAJSInterface;
+import com.android.wonderslate.appinapp.interfaces.ContentLoaderCallback;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class AIAWebLoader {
     WebView webView;
     Context context;
+    static ContentLoaderCallback contentLoaderCallback;
     int i = 0;
 
     public AIAWebLoader(WebView webView, Context context) {
@@ -42,6 +45,7 @@ public class AIAWebLoader {
         this.context = context;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void configureWebView(WebView webView) {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
@@ -66,8 +70,16 @@ public class AIAWebLoader {
         webView.getSettings().setMediaPlaybackRequiresUserGesture(false);
 
         webView.getSettings().setSupportMultipleWindows(true);
+        webView.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE);
 
-        webView.getSettings().setAppCacheEnabled(false);
+        File dir = context.getCacheDir();
+        if (dir != null && !dir.exists()) {
+            dir.mkdirs();
+            webView.getSettings().setAppCachePath(dir.getPath());
+        }
+
+        webView.getSettings().setAppCacheEnabled(true);
+        webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         webView.getSettings().setDatabaseEnabled(true);
 
         webView.addJavascriptInterface(new AIAJSInterface(webView, context), "JSInterface");
@@ -101,8 +113,10 @@ public class AIAWebLoader {
         });
     }
 
-    public void loadAIA(String siteId, String mobile, String secretKey, String username){
+    public void loadAIA(String siteId, String mobile, String secretKey, String username, ContentLoaderCallback contentLoaderCallback){
         configureWebView(webView);
+
+        AIAWebLoader.contentLoaderCallback = contentLoaderCallback;
 
         /*if (checkLocalData()) {
             File file = new File(context.getFilesDir() + "/webarchive/");
@@ -190,7 +204,7 @@ public class AIAWebLoader {
         }
     }
 
-    public  boolean isNetworkConnected(Context context) {
+    public boolean isNetworkConnected(@NonNull Context context) {
         ConnectivityManager cm =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -224,6 +238,10 @@ public class AIAWebLoader {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+
+            if (view.getProgress() == 100) {
+                contentLoaderCallback.onLoadFinished();
+            }
         }
 
         @Override

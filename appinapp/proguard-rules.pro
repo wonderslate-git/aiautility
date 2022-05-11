@@ -29,9 +29,14 @@
 # For more details, see
 #   http://developer.android.com/guide/developing/tools/proguard.html
 
+#Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
 }
+
+#AVI Loader
+-keep class com.wang.avi.** { *; }
+-keep class com.wang.avi.indicators.** { *; }

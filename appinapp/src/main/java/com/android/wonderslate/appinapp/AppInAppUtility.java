@@ -65,16 +65,10 @@ public final class AppInAppUtility {
         return viewFragment;
     }
 
-    /**
-     * Returns fragment instance of type ViewFragment. This fragment instance needs to fill up the container Activity in the client app.
-     * @return fragment of type ViewFragment
-     */
-    @NonNull
-    public ViewFragment getAIAActivity() {
-        viewFragment = ViewFragment.newInstance(mSiteId, mClientSecret, mUserName,
-                mUserMobile, mUserEmail);
-
-        return viewFragment;
+    public void refresh() {
+        if (viewFragment != null) {
+            viewFragment.refreshView();
+        }
     }
 
     public void getAIAPurchaseOrder(UserPurchaseHistoryCallback purchaseHistoryCallback) {

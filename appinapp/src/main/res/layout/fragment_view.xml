@@ -3,12 +3,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view_holder_fragment"
     tools:context=".views.ViewFragment">
+
+    <View
+        android:id="@+id/aia_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4F5FA"/>
 
     <WebView
         android:id="@+id/aia_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <!--<com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/aia_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="gone"
+        app:indicatorName="BallClipRotateIndicator"
+        app:indicatorColor="#153252"
+    />-->
+
+    <ProgressBar
+        android:id="@+id/aia_loader"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        android:indeterminateTint="#153252"/>
 
 </FrameLayout>

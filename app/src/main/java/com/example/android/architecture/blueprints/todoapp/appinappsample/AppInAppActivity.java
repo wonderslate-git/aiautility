@@ -11,14 +11,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.interfaces.UserPurchaseHistoryCallback;
 import com.example.android.architecture.blueprints.todoapp.R;
 import com.google.android.material.textfield.TextInputEditText;
@@ -89,20 +87,6 @@ public class AppInAppActivity extends AppCompatActivity {
         toDoSharedPrefs.setUsername(name);
         toDoSharedPrefs.setUsermobile(mobile);
         toDoSharedPrefs.setUserEmail(email);
-
-        /*appInAppUtility.getAIAPurchaseOrder(new UserPurchaseHistoryCallback() {
-            @Override
-            public void onSuccess(String responseCode, String responseStatus, String responseBody) {
-                Toast.makeText(AppInAppActivity.this, "Purchase Response: " + responseStatus, Toast.LENGTH_SHORT).show();
-                Log.e("AIAActivity", "Purchase History: " + responseBody);
-            }
-
-            @Override
-            public void onFailure(String responseCode, String responseStatus, String message) {
-                Toast.makeText(AppInAppActivity.this, "Error Response: " + message, Toast.LENGTH_SHORT).show();
-                Log.e("AIAActivity", "Purchase History Error: " + message);
-            }
-        });*/
     }
 
     @Override
@@ -147,6 +131,9 @@ public class AppInAppActivity extends AppCompatActivity {
                 }
             });
 
+        }
+        else if (item.getItemId() == R.id.menu_refresh) {
+            appInAppUtility.refresh();
         }
         return super.onOptionsItemSelected(item);
     }

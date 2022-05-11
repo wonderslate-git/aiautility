@@ -15,12 +15,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.R;
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
+import com.android.wonderslate.appinapp.interfaces.ContentLoaderCallback;
 import com.android.wonderslate.appinapp.util.AIAWebLoader;
+import com.google.android.material.snackbar.Snackbar;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.Objects;
 
@@ -29,7 +33,7 @@ import java.util.Objects;
  * Use the {@link ViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewFragment extends Fragment {
+public class ViewFragment extends Fragment implements ContentLoaderCallback {
     private static String TAG = "AIAFragment";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -51,6 +55,10 @@ public class ViewFragment extends Fragment {
     public static WebView aiaWebView;
     private LinearLayout errorLayout;
     private TextView errorTxtView;
+    //private AVLoadingIndicatorView aiaLoader;
+    private Snackbar aiaSnackBar;
+    private View aiaOverlay;
+    private ProgressBar aiaLoader;
 
     WSSharedPrefs wsSharedPrefs;
 
@@ -106,6 +114,13 @@ public class ViewFragment extends Fragment {
 
     private void init() {
         aiaWebView = rootView.findViewById(R.id.aia_webview);
+        aiaLoader = rootView.findViewById(R.id.aia_loader);
+        aiaOverlay = rootView.findViewById(R.id.aia_overlay);
+
+        showUILoaders(true);
+
+        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
 
         //Store the values in Shared Prefs with the Fragment's Context
         wsSharedPrefs = WSSharedPrefs.getInstance(this.getContext());
@@ -114,9 +129,6 @@ public class ViewFragment extends Fragment {
         wsSharedPrefs.setUsername(mName);
         wsSharedPrefs.setUsermobile(mMobile);
         wsSharedPrefs.setUserEmail(mEmail);
-
-        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
     }
 
     /**
@@ -151,7 +163,38 @@ public class ViewFragment extends Fragment {
 
     public void refreshView() {
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName);
+        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
+        showUILoaders(true);
+    }
+
+    public void showUILoaders(boolean flag) {
+        if (flag) {
+            if (aiaWebView != null) {
+                aiaWebView.setVisibility(View.GONE);
+            }
+            if (aiaLoader != null) {
+                aiaLoader.setVisibility(View.VISIBLE);
+            }
+            if (aiaOverlay != null) {
+                aiaOverlay.setVisibility(View.VISIBLE);
+            }
+            aiaSnackBar = Snackbar.make(rootView, "Getting & preparing eBooks for you. Please wait...", Snackbar.LENGTH_INDEFINITE);
+            aiaSnackBar.show();
+        }
+        else {
+            if (aiaWebView != null) {
+                aiaWebView.setVisibility(View.VISIBLE);
+            }
+            if (aiaLoader != null) {
+                aiaLoader.setVisibility(View.GONE);
+            }
+            if (aiaSnackBar != null) {
+                aiaSnackBar.dismiss();
+            }
+            if (aiaOverlay != null) {
+                aiaOverlay.setVisibility(View.GONE);
+            }
+        }
     }
 
     public static Context getAIAContext() {
@@ -166,5 +209,10 @@ public class ViewFragment extends Fragment {
         else {
             return null;
         }
+    }
+
+    @Override
+    public void onLoadFinished() {
+        showUILoaders(false);
     }
 }
