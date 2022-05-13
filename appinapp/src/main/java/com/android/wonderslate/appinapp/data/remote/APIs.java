@@ -43,12 +43,14 @@ public final class APIs {
 
     //API ENDPOINT SERIAL NUMBER
     public static final Integer SERVICE_GET_USER_PURCHASE_HISTORY = 1;
+    public static final Integer SERVICE_GET_STORE_BOOKS = 2;
 
     //API Endpoint URLs
     public static final String LAUNCH_URL = "intelligence/sessionGenerator?siteId=%s&secretKey=%s&loginId=%s&name=%s";
     public static final String APP_IN_APP_LIBRARY_URL = "wsLibrary/myLibrary";
     public static final String APP_IN_APP_STORE_URL = "appinapp/store";
     public static final String APP_IN_APP_PURCHASE_HISTORY = "creation/getAIAUserOrdersList";
+    public static final String APP_IN_APP_STORE_BOOKS_LIST = "wonderpublish/getNewBooksList";
 
     private static void setupAPI(APIs apiManager) {
         AIANetworkModel networkModel;
@@ -62,6 +64,12 @@ public final class APIs {
         optionalComps = new String[]{};
         networkModel = new AIANetworkModel(SERVICE_GET_USER_PURCHASE_HISTORY, APP_IN_APP_PURCHASE_HISTORY, requiredComps, optionalComps);
         apiManager.networkModelHashMap.put(SERVICE_GET_USER_PURCHASE_HISTORY, networkModel);
+
+        // Store Book List
+        requiredComps = new String[]{SITEID};
+        optionalComps = new String[]{};
+        networkModel = new AIANetworkModel(SERVICE_GET_STORE_BOOKS, APP_IN_APP_STORE_BOOKS_LIST, requiredComps, optionalComps);
+        apiManager.networkModelHashMap.put(SERVICE_GET_STORE_BOOKS, networkModel);
 
         apiManager.requiredCpmpsDefaults = new HashMap<>(0);
         //apiManager.requiredCpmpsDefaults.put(ConstantsHelper.HTTP_MODE, "chapter");

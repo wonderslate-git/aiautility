@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.data;
+package com.ws.android.playground.aiaimpl.todoapp.data;
 
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.TasksDataSource;
 import com.google.common.collect.Lists;
 
 import java.util.Iterator;

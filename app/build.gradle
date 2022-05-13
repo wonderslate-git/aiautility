@@ -4,7 +4,7 @@ android {
     compileSdkVersion rootProject.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.example.android.architecture.blueprints.todomvvmlive"
+        applicationId "com.ws.android.playground.aiaimpl.todoapp"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         versionCode 1
@@ -58,6 +58,7 @@ android {
     dataBinding {
         enabled = true
     }
+    namespace 'com.ws.android.playground.aiaimpl.todoapp'
 }
 
 /*

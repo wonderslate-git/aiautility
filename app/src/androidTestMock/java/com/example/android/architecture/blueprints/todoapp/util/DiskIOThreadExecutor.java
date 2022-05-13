@@ -1,4 +1,4 @@
-package com.example.android.architecture.blueprints.todoapp.util;
+package com.ws.android.playground.aiaimpl.todoapp.util;
 
 import androidx.annotation.NonNull;
 

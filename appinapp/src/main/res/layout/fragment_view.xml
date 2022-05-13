@@ -19,17 +19,6 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <!--<com.wang.avi.AVLoadingIndicatorView
-        android:id="@+id/aia_loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        style="@style/AVLoadingIndicatorView"
-        android:visibility="gone"
-        app:indicatorName="BallClipRotateIndicator"
-        app:indicatorColor="#153252"
-    />-->
-
     <ProgressBar
         android:id="@+id/aia_loader"
         style="?android:attr/progressBarStyle"
@@ -38,5 +27,51 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:indeterminateTint="#153252"/>
+
+    <LinearLayout
+        android:id="@+id/no_internet_connection_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_no_internet"
+            android:contentDescription="@string/no_internet_connection_content_description"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/no_internet_message"
+            android:gravity="center"
+            android:typeface="monospace"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/reload_page_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
+            android:text="Refresh"
+            android:typeface="monospace"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/view_background_rounded"
+            android:elevation="3dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+    </LinearLayout>
 
 </FrameLayout>

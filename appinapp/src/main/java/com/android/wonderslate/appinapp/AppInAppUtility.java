@@ -1,5 +1,10 @@
 package com.android.wonderslate.appinapp;
 
+import static com.android.wonderslate.appinapp.util.AppConstants.ERR_GENERIC;
+import static com.android.wonderslate.appinapp.util.AppConstants.ERR_NO_NETWORK;
+import static com.android.wonderslate.appinapp.util.AppConstants.ERR_WHILE_PARSING_DATA;
+import static com.android.wonderslate.appinapp.util.AppConstants.SUCCESS;
+
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,7 +15,8 @@ import com.android.wonderslate.appinapp.data.remote.AIANetworkManager;
 import com.android.wonderslate.appinapp.data.remote.AIARemoteCallback;
 import com.android.wonderslate.appinapp.data.remote.APIs;
 import com.android.wonderslate.appinapp.data.remote.ServerURLManager;
-import com.android.wonderslate.appinapp.interfaces.UserPurchaseHistoryCallback;
+import com.android.wonderslate.appinapp.interfaces.NetworkDataHandlerCallback;
+import com.android.wonderslate.appinapp.util.CommonUtils;
 import com.android.wonderslate.appinapp.views.ViewFragment;
 
 import org.chromium.net.CronetException;
@@ -71,11 +77,16 @@ public final class AppInAppUtility {
         }
     }
 
-    public void getAIAPurchaseOrder(UserPurchaseHistoryCallback purchaseHistoryCallback) {
+    public void getAIAPurchaseOrder(NetworkDataHandlerCallback purchaseHistoryCallback) {
         final String[] response = new String[1];
         //Call Purchase History API
 
         if (viewFragment.getActivity() != null) {
+            if (!new CommonUtils().isOnline(viewFragment.getActivity())) {
+                purchaseHistoryCallback.onFailure(ERR_NO_NETWORK, "Failed to connect to network. Please check the network connection.");
+                return;
+            }
+
             AIANetworkManager networkManager = AIANetworkManager.getInstance(viewFragment.getActivity().getApplicationContext());
 
             APIs apis = APIs.getInstance(mSiteId);
@@ -92,23 +103,23 @@ public final class AppInAppUtility {
                     try {
                         response[0] = new JSONObject(new String(bodyBytes)).toString();
                         Log.d("response", "api response: " + response[0]);
-                        purchaseHistoryCallback.onSuccess(Integer.toString(info.getHttpStatusCode()), info.getHttpStatusText(), response[0]);
+                        purchaseHistoryCallback.onSuccess(SUCCESS, info.getHttpStatusText(), response[0]);
                     } catch (JSONException e) {
                         response[0] = "";
-                        purchaseHistoryCallback.onFailure("400", "Status: Failed", e.getMessage());
+                        purchaseHistoryCallback.onFailure(ERR_WHILE_PARSING_DATA, e.getMessage());
                     }
                 }
 
                 @Override
                 public void onFailure(UrlRequest request, UrlResponseInfo info, CronetException exception) {
                     response[0] = "";
-                    purchaseHistoryCallback.onFailure(Integer.toString(info.getHttpStatusCode()), info.getHttpStatusText(), exception.getMessage());
+                    purchaseHistoryCallback.onFailure(ERR_GENERIC, exception.getMessage());
                 }
 
                 @Override
                 public void onRequestCanceled(UrlRequest request, UrlResponseInfo info) {
                     response[0] = "";
-                    purchaseHistoryCallback.onFailure(Integer.toString(info.getHttpStatusCode()), info.getHttpStatusText(), "Network request was cancelled");
+                    purchaseHistoryCallback.onFailure(ERR_GENERIC, "Network request was cancelled");
                 }
             };
 

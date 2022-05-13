@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,8 +22,12 @@ import android.widget.Toast;
 
 import com.android.wonderslate.appinapp.R;
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
+import com.android.wonderslate.appinapp.data.remote.NetworkDataHandler;
 import com.android.wonderslate.appinapp.interfaces.ContentLoaderCallback;
+import com.android.wonderslate.appinapp.interfaces.NetworkDataHandlerCallback;
 import com.android.wonderslate.appinapp.util.AIAWebLoader;
+import com.android.wonderslate.appinapp.util.AppConstants;
+import com.android.wonderslate.appinapp.util.CommonUtils;
 import com.google.android.material.snackbar.Snackbar;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -33,7 +38,7 @@ import java.util.Objects;
  * Use the {@link ViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewFragment extends Fragment implements ContentLoaderCallback {
+public class ViewFragment extends Fragment implements ContentLoaderCallback, View.OnClickListener {
     private static String TAG = "AIAFragment";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -53,16 +58,19 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
 
     private View rootView;
     public static WebView aiaWebView;
-    private LinearLayout errorLayout;
+    private LinearLayout errorLayout, noNetworkLayout;
     private TextView errorTxtView;
     //private AVLoadingIndicatorView aiaLoader;
     private Snackbar aiaSnackBar;
     private View aiaOverlay;
     private ProgressBar aiaLoader;
+    private Button reloadPageBtn;
 
     WSSharedPrefs wsSharedPrefs;
 
     static ViewFragment aiaViewFragment;
+
+    CommonUtils commonUtils;
 
     private ViewFragment() {
         // Required empty public constructor
@@ -113,14 +121,21 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
     }
 
     private void init() {
+        commonUtils = new CommonUtils();
         aiaWebView = rootView.findViewById(R.id.aia_webview);
         aiaLoader = rootView.findViewById(R.id.aia_loader);
         aiaOverlay = rootView.findViewById(R.id.aia_overlay);
+        noNetworkLayout = rootView.findViewById(R.id.no_internet_connection_layout);
+        noNetworkLayout.setVisibility(View.GONE);
+        reloadPageBtn = rootView.findViewById(R.id.reload_page_btn);
+        reloadPageBtn.setOnClickListener(this);
 
-        showUILoaders(true);
+        if (checkNetworkAndStart()) {
+            showUILoaders(true);
 
-        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
+            AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext(), aiaViewFragment);
+            aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
+        }
 
         //Store the values in Shared Prefs with the Fragment's Context
         wsSharedPrefs = WSSharedPrefs.getInstance(this.getContext());
@@ -129,6 +144,22 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
         wsSharedPrefs.setUsername(mName);
         wsSharedPrefs.setUsermobile(mMobile);
         wsSharedPrefs.setUserEmail(mEmail);
+    }
+
+    private boolean checkNetworkAndStart() {
+        if (getAIAContext() != null) {
+            if (!commonUtils.isOnline(getAIAContext())) {
+                noNetworkLayout.setVisibility(View.VISIBLE);
+                aiaWebView.setVisibility(View.GONE);
+                aiaLoader.setVisibility(View.GONE);
+                return false;
+            }
+            else {
+                noNetworkLayout.setVisibility(View.GONE);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -145,7 +176,7 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
+        requireActivity().getOnBackPressedDispatcher().addCallback(getViewLifecycleOwner(), new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 Log.i(TAG, "Back btn was pressed.");
@@ -162,13 +193,35 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
     }
 
     public void refreshView() {
-        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext());
-        aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
-        showUILoaders(true);
+        if (checkNetworkAndStart()) {
+            AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext(), aiaViewFragment);
+            aiaWebLoader.loadAIA(mSiteId, mMobile, mSecret, mName, this);
+            showUILoaders(true);
+            /*NetworkDataHandler.getStoreBooksList(requireActivity(), "true", "null", "null",
+                    "null", "null", "0", "null", new NetworkDataHandlerCallback() {
+                @Override
+                public void onSuccess(Integer responseCode, String responseStatus, String responseBody) {
+                    Log.e("AIA Fragment", "shop books list: " + responseBody);
+                }
+
+                @Override
+                public void onFailure(Integer responseCode, String message) {
+                    Log.e("AIA Fragment", "shop books list failed " + message);
+                }
+            });*/
+        }
     }
+
+    /*public void onShopDataReceived() {
+        AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext(), aiaViewFragment);
+        aiaWebLoader.onShopDataReceived();
+    }*/
 
     public void showUILoaders(boolean flag) {
         if (flag) {
+            if (noNetworkLayout != null) {
+                noNetworkLayout.setVisibility(View.GONE);
+            }
             if (aiaWebView != null) {
                 aiaWebView.setVisibility(View.GONE);
             }
@@ -178,10 +231,13 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
             if (aiaOverlay != null) {
                 aiaOverlay.setVisibility(View.VISIBLE);
             }
-            aiaSnackBar = Snackbar.make(rootView, "Getting & preparing eBooks for you. Please wait...", Snackbar.LENGTH_INDEFINITE);
+            aiaSnackBar = Snackbar.make(rootView, "Loading eBooks. Please wait...", Snackbar.LENGTH_INDEFINITE);
             aiaSnackBar.show();
         }
         else {
+            if (noNetworkLayout != null) {
+                noNetworkLayout.setVisibility(View.GONE);
+            }
             if (aiaWebView != null) {
                 aiaWebView.setVisibility(View.VISIBLE);
             }
@@ -214,5 +270,17 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback {
     @Override
     public void onLoadFinished() {
         showUILoaders(false);
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.reload_page_btn) {
+            refreshView();
+        }
     }
 }

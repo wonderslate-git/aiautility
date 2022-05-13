@@ -30,7 +30,7 @@ public final class ServerURLManager {
 
     public void setService() {
         //Select Base Service URL According To Server.
-        currentServer = Servers.LIVE; //Use QA, STAGING, PUBLISH, LIVE
+        currentServer = Servers.QADEV; //Use QA, STAGING, PUBLISH, LIVE
 
         switch (currentServer){
             case QA:

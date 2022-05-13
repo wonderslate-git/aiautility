@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.statistics;
+package com.ws.android.playground.aiaimpl.todoapp.statistics;
 
 import android.app.Application;
 import android.content.Intent;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.ViewModelFactory;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
+import com.ws.android.playground.aiaimpl.todoapp.R;
+import com.ws.android.playground.aiaimpl.todoapp.ViewModelFactory;
+import com.ws.android.playground.aiaimpl.todoapp.data.Task;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.TasksRepository;
+import com.ws.android.playground.aiaimpl.todoapp.util.EspressoIdlingResource;
 
 import org.junit.After;
 import org.junit.Before;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.taskdetail;
+package com.ws.android.playground.aiaimpl.todoapp.taskdetail;
 
 import static org.hamcrest.core.IsNot.not;
 
@@ -28,12 +28,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import android.app.Activity;
 import android.content.Intent;
 
-import com.example.android.architecture.blueprints.todoapp.R;
-import com.example.android.architecture.blueprints.todoapp.TestUtils;
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.Task;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.util.EspressoIdlingResource;
+import com.ws.android.playground.aiaimpl.todoapp.R;
+import com.ws.android.playground.aiaimpl.todoapp.TestUtils;
+import com.ws.android.playground.aiaimpl.todoapp.data.FakeTasksRemoteDataSource;
+import com.ws.android.playground.aiaimpl.todoapp.data.Task;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.TasksRepository;
+import com.ws.android.playground.aiaimpl.todoapp.util.EspressoIdlingResource;
 
 import org.junit.After;
 import org.junit.Before;

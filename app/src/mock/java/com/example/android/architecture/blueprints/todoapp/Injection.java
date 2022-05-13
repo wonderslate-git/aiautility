@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp;
+package com.ws.android.playground.aiaimpl.todoapp;
 
 import android.content.Context;
 
-import com.example.android.architecture.blueprints.todoapp.data.FakeTasksRemoteDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.TasksRepository;
-import com.example.android.architecture.blueprints.todoapp.data.source.local.TasksLocalDataSource;
-import com.example.android.architecture.blueprints.todoapp.data.source.local.ToDoDatabase;
-import com.example.android.architecture.blueprints.todoapp.util.AppExecutors;
+import com.ws.android.playground.aiaimpl.todoapp.data.FakeTasksRemoteDataSource;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.TasksDataSource;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.TasksRepository;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.local.TasksLocalDataSource;
+import com.ws.android.playground.aiaimpl.todoapp.data.source.local.ToDoDatabase;
+import com.ws.android.playground.aiaimpl.todoapp.util.AppExecutors;
 
 import androidx.annotation.NonNull;
 

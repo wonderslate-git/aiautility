@@ -20,11 +20,11 @@
 
         <variable
             name="task"
-            type="com.example.android.architecture.blueprints.todoapp.data.Task" />
+            type="com.ws.android.playground.aiaimpl.todoapp.data.Task" />
 
         <variable
             name="listener"
-            type="com.example.android.architecture.blueprints.todoapp.tasks.TaskItemUserActionsListener" />
+            type="com.ws.android.playground.aiaimpl.todoapp.tasks.TaskItemUserActionsListener" />
     </data>
 
     <LinearLayout

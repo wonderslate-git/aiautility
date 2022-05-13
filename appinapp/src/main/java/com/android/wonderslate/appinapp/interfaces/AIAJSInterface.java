@@ -9,17 +9,20 @@ import android.webkit.WebView;
 
 import com.android.wonderslate.appinapp.data.local.WSSharedPrefs;
 import com.android.wonderslate.appinapp.views.AIAActivity;
+import com.android.wonderslate.appinapp.views.ViewFragment;
 
 public class AIAJSInterface {
     private Context context;
     private WebView webView;
     WSSharedPrefs wsSharedPrefs;
     private AIAActivity activityContext;
+    private ViewFragment viewFragment;
 
-    public AIAJSInterface(WebView webView, Context context) {
+    public AIAJSInterface(WebView webView, Context context, ViewFragment v) {
         this.webView = webView;
         this.context = context;
         wsSharedPrefs = WSSharedPrefs.getInstance(context);
+        viewFragment = v;
     }
 
     @JavascriptInterface
@@ -49,7 +52,7 @@ public class AIAJSInterface {
 
     @JavascriptInterface
     public void onBookPurchase(String status) {
-        if (status != null && !status.isEmpty() && status.equalsIgnoreCase("ok")) {
+        if (status != null && status.equalsIgnoreCase("ok")) {
             Log.d("AppInApp", "Book Purchase Successful");
 
         }
@@ -57,5 +60,11 @@ public class AIAJSInterface {
             Log.d("AppInApp", "Book Purchase Not Successful");
             activityContext.onPaymentError(404, "Payment Failure");
         }
+    }
+
+    @JavascriptInterface
+    public void getShopBooks(String p1, String p2, String p3, String p4, String p5, String p6, String p7) {
+        Log.d("AppInApp", "api param 2: " + p2);
+        //viewFragment.onShopDataReceived();
     }
 }
