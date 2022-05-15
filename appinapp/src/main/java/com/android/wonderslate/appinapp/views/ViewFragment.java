@@ -1,6 +1,8 @@
 package com.android.wonderslate.appinapp.views;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.OnBackPressedCallback;
@@ -146,7 +148,7 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
         wsSharedPrefs.setUserEmail(mEmail);
     }
 
-    private boolean checkNetworkAndStart() {
+    public boolean checkNetworkAndStart() {
         if (getAIAContext() != null) {
             if (!commonUtils.isOnline(getAIAContext())) {
                 noNetworkLayout.setVisibility(View.VISIBLE);
@@ -216,6 +218,17 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
         AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext(), aiaViewFragment);
         aiaWebLoader.onShopDataReceived();
     }*/
+
+    public void openWebLink(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(url));
+
+// Always use string resources for UI text. This says something like "Share this photo with"
+        String title = "Choose a browser";
+// Create and start the chooser
+        Intent chooser = Intent.createChooser(intent, title);
+        startActivity(chooser);
+    }
 
     public void showUILoaders(boolean flag) {
         if (flag) {

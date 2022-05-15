@@ -232,6 +232,9 @@ public class AIAWebLoader {
          */
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            if (!new CommonUtils().isOnline(context)) {
+                viewFragment.checkNetworkAndStart();
+            }
             super.onPageStarted(view, url, favicon);
         }
 
@@ -244,6 +247,9 @@ public class AIAWebLoader {
          */
         @Override
         public void onLoadResource(WebView view, String url) {
+            if (!new CommonUtils().isOnline(context)) {
+                viewFragment.checkNetworkAndStart();
+            }
             super.onLoadResource(view, url);
         }
 
@@ -296,6 +302,9 @@ public class AIAWebLoader {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
             Log.e("AiALoader", "Error received from webview: " + error.toString());
+            if (!new CommonUtils().isOnline(context)) {
+                viewFragment.checkNetworkAndStart();
+            }
         }
 
         /**
@@ -313,6 +322,9 @@ public class AIAWebLoader {
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
             super.onReceivedHttpError(view, request, errorResponse);
             Log.e("AiALoader", "HTTP Error received from webview: " + errorResponse.toString());
+            if (!new CommonUtils().isOnline(context)) {
+                viewFragment.checkNetworkAndStart();
+            }
         }
 
         /**

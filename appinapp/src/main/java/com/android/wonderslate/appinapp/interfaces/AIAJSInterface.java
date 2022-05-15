@@ -63,8 +63,7 @@ public class AIAJSInterface {
     }
 
     @JavascriptInterface
-    public void getShopBooks(String p1, String p2, String p3, String p4, String p5, String p6, String p7) {
-        Log.d("AppInApp", "api param 2: " + p2);
-        //viewFragment.onShopDataReceived();
+    public void onWebLinkClicked(String url) {
+        viewFragment.openWebLink(url);
     }
 }
