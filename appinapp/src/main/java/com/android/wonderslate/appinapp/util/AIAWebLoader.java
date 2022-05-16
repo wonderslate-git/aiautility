@@ -14,6 +14,8 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.webkit.ConsoleMessage;
 import android.webkit.CookieManager;
@@ -106,6 +108,7 @@ public class AIAWebLoader {
         setWebContentsDebuggingEnabled(true);
 
         webView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> {
+            Toast.makeText(context, "Downloading File", Toast.LENGTH_LONG).show();
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
 
             request.setMimeType(mimeType);
@@ -121,7 +124,6 @@ public class AIAWebLoader {
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, URLUtil.guessFileName(url, contentDisposition, mimeType));
             DownloadManager dm = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
             dm.enqueue(request);
-            Toast.makeText(context, "Downloading File", Toast.LENGTH_LONG).show();
         });
     }
 
@@ -162,6 +164,15 @@ public class AIAWebLoader {
         Log.d("Loader", "URL: " + url);
         webView.loadUrl(url);
         i = 0;
+    }
+
+    public void loadUrl(String url) {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                webView.loadUrl(url);
+            }
+        });
     }
 
     public boolean checkLocalData() {
@@ -232,9 +243,9 @@ public class AIAWebLoader {
          */
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            if (!new CommonUtils().isOnline(context)) {
+            /*if (!new CommonUtils().isOnline(context)) {
                 viewFragment.checkNetworkAndStart();
-            }
+            }*/
             super.onPageStarted(view, url, favicon);
         }
 
@@ -247,9 +258,9 @@ public class AIAWebLoader {
          */
         @Override
         public void onLoadResource(WebView view, String url) {
-            if (!new CommonUtils().isOnline(context)) {
+            /*if (!new CommonUtils().isOnline(context)) {
                 viewFragment.checkNetworkAndStart();
-            }
+            }*/
             super.onLoadResource(view, url);
         }
 
@@ -302,9 +313,9 @@ public class AIAWebLoader {
         public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
             super.onReceivedError(view, request, error);
             Log.e("AiALoader", "Error received from webview: " + error.toString());
-            if (!new CommonUtils().isOnline(context)) {
+            /*if (!new CommonUtils().isOnline(context)) {
                 viewFragment.checkNetworkAndStart();
-            }
+            }*/
         }
 
         /**
@@ -322,9 +333,9 @@ public class AIAWebLoader {
         public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
             super.onReceivedHttpError(view, request, errorResponse);
             Log.e("AiALoader", "HTTP Error received from webview: " + errorResponse.toString());
-            if (!new CommonUtils().isOnline(context)) {
+            /*if (!new CommonUtils().isOnline(context)) {
                 viewFragment.checkNetworkAndStart();
-            }
+            }*/
         }
 
         /**

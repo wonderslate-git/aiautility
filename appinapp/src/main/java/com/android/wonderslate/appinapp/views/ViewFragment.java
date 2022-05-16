@@ -2,6 +2,7 @@ package com.android.wonderslate.appinapp.views;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -30,6 +31,7 @@ import com.android.wonderslate.appinapp.interfaces.NetworkDataHandlerCallback;
 import com.android.wonderslate.appinapp.util.AIAWebLoader;
 import com.android.wonderslate.appinapp.util.AppConstants;
 import com.android.wonderslate.appinapp.util.CommonUtils;
+import com.android.wonderslate.appinapp.util.NetworkStateReceiver;
 import com.google.android.material.snackbar.Snackbar;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -40,7 +42,7 @@ import java.util.Objects;
  * Use the {@link ViewFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ViewFragment extends Fragment implements ContentLoaderCallback, View.OnClickListener {
+public class ViewFragment extends Fragment implements ContentLoaderCallback, View.OnClickListener, NetworkStateReceiver.NetworkStateReceiverListener {
     private static String TAG = "AIAFragment";
 
     // TODO: Rename parameter arguments, choose names that match
@@ -73,6 +75,8 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
     static ViewFragment aiaViewFragment;
 
     CommonUtils commonUtils;
+
+    private NetworkStateReceiver networkStateReceiver;
 
     private ViewFragment() {
         // Required empty public constructor
@@ -118,6 +122,9 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_view, container, false);
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(this);
+        getAIAContext().registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
         init();
         return rootView;
     }
@@ -146,6 +153,17 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
         wsSharedPrefs.setUsername(mName);
         wsSharedPrefs.setUsermobile(mMobile);
         wsSharedPrefs.setUserEmail(mEmail);
+    }
+
+    /**
+     * Called when the fragment is no longer in use.  This is called
+     * after {@link #onStop()} and before {@link #onDetach()}.
+     */
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        networkStateReceiver.removeListener(this);
+        getAIAContext().unregisterReceiver(networkStateReceiver);
     }
 
     public boolean checkNetworkAndStart() {
@@ -220,14 +238,17 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
     }*/
 
     public void openWebLink(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse(url));
-
-// Always use string resources for UI text. This says something like "Share this photo with"
-        String title = "Choose a browser";
-// Create and start the chooser
-        Intent chooser = Intent.createChooser(intent, title);
-        startActivity(chooser);
+        if (url.contains("downloadEncodedPdf")) {
+            AIAWebLoader aiaWebLoader = new AIAWebLoader(aiaWebView, this.getContext(), aiaViewFragment);
+            aiaWebLoader.loadUrl(url);
+        }
+        else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            String title = "Choose a browser";
+            Intent chooser = Intent.createChooser(intent, title);
+            startActivity(chooser);
+        }
     }
 
     public void showUILoaders(boolean flag) {
@@ -295,5 +316,17 @@ public class ViewFragment extends Fragment implements ContentLoaderCallback, Vie
         if (v.getId() == R.id.reload_page_btn) {
             refreshView();
         }
+    }
+
+    @Override
+    public void networkAvailable() {
+        //noNetworkLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void networkUnavailable() {
+        noNetworkLayout.setVisibility(View.VISIBLE);
+        aiaWebView.setVisibility(View.GONE);
+        aiaLoader.setVisibility(View.GONE);
     }
 }
