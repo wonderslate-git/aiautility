@@ -15,6 +15,7 @@ public final class AppConstants {
     public static final String SERVICE_PUBLISH = "https://publish.wonderslate.com/";
     public static final String SERVICE_LIVE = "https://www.wonderslate.com/";
     public static final String SERVICE_QADEV = "https://dev.wonderslate.com/";
+    public static final String SERVICE_LOCAL = "http://192.168.0.119:8080/";
 
     //Razorpay Fields & Strings
     public static final String RZP_COMPANY_NAME = "name";

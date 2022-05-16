@@ -1,6 +1,7 @@
 package com.android.wonderslate.appinapp.data.remote;
 
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_LIVE;
+import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_LOCAL;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_PUBLISH;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QA;
 import static com.android.wonderslate.appinapp.util.AppConstants.SERVICE_QADEV;
@@ -15,7 +16,7 @@ public final class ServerURLManager {
     public static Servers currentServer;
 
     public enum Servers {
-        QA, QADEV, STAGING, PUBLISH, LIVE
+        QA, QADEV, STAGING, PUBLISH, LIVE, LOCAL
     }
 
     private ServerURLManager() {
@@ -30,7 +31,7 @@ public final class ServerURLManager {
 
     public void setService() {
         //Select Base Service URL According To Server.
-        currentServer = Servers.STAGING; //Use QA, STAGING, PUBLISH, LIVE
+        currentServer = Servers.QADEV; //Use QA, STAGING, PUBLISH, LIVE
 
         switch (currentServer){
             case QA:
@@ -48,6 +49,8 @@ public final class ServerURLManager {
             case LIVE:
                 SERVICE = SERVICE_LIVE;
                 break;
+            case LOCAL:
+                SERVICE = SERVICE_LOCAL;
             default:
                 break;
         }
