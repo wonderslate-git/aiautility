@@ -58,7 +58,7 @@ afterEvaluate {
 
                 groupId = 'com.github.wonderslate-git'
                 artifactId = 'aiautility'
-                version = '0.3.7'
+                version = '0.3.8'
             }
         }
     }
