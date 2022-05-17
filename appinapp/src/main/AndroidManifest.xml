@@ -14,9 +14,7 @@
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
-    <application
-        android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+    <application>
         <activity
             android:name=".views.AIAActivity"
             android:exported="false" />

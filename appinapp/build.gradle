@@ -14,7 +14,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField "String", "razorpay_key", WSRazorPay_Sandbox
+        buildConfigField "String", "razorpay_key", WSRazorPay_Live
     }
 
     buildTypes {
