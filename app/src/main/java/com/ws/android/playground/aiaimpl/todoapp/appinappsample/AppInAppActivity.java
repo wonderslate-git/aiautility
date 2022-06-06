@@ -112,21 +112,11 @@ public class AppInAppActivity extends AppCompatActivity {
                 appInAppUtility.getAIAPurchaseOrder(new NetworkDataHandlerCallback() {
                 @Override
                 public void onSuccess(Integer responseCode, String responseStatus, String responseBody) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(AppInAppActivity.this, "Purchase Response: " + responseStatus, Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     Log.d("AIAActivity", "Purchase History: " + responseBody);
                 }
 
                 @Override
                 public void onFailure(Integer responseCode, String message) {
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            Toast.makeText(AppInAppActivity.this, "Error Response: " + message, Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     Log.e("AIAActivity", "Purchase History Error: " + message);
                 }
             });
